@@ -1,19 +1,34 @@
 package ai.tabby.android
 
-import ai.tabby.android.internal.core.TabbyImpl
+import ai.tabby.android.internal.di.component.TabbyComponent
+import android.content.Context
+import java.util.concurrent.atomic.AtomicReference
 
 object TabbyFactory {
 
-    lateinit var tabby: Tabby
-        private set
+    private val tabbyComponentRef = AtomicReference<TabbyComponent?>(null)
 
-    fun initAndGet(): Tabby {
-        if (this::tabby.isInitialized) {
-            return tabby
+    val tabby: Tabby get() =
+        tabbyComponentRef.get()?.provideTabby() ?:
+            throw NullPointerException("Tabby factory is not initialized! Call initAndGet() first.")
+
+    fun initAndGet(
+        context: Context,
+        baseUrl: String,
+        merchantId: String,
+    ): Tabby {
+        val component = tabbyComponentRef.get()
+        if (component != null) {
+            return component.provideTabby()
         }
-        synchronized(this) {
-            if (!this::tabby.isInitialized) {
-                tabby = TabbyImpl()
+        synchronized(tabbyComponentRef) {
+            if (tabbyComponentRef.get() == null) {
+                val newComponent = TabbyComponent.create(
+                    context = context,
+                    baseUrl = baseUrl,
+                    merchantId = merchantId,
+                )
+                tabbyComponentRef.set(newComponent)
             }
         }
         return tabby
