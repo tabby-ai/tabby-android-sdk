@@ -1,5 +1,6 @@
 package ai.tabby.android.internal.di.module
 
+import ai.tabby.android.internal.logger.TabbyLogger
 import ai.tabby.android.internal.network.TabbyService
 import dagger.Module
 import dagger.Provides
@@ -13,8 +14,12 @@ import javax.inject.Named
 internal class NetworkModule {
 
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
-        val loggingInterceptor = HttpLoggingInterceptor().apply {
+    fun provideOkHttpClient(
+        logger: TabbyLogger
+    ): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor {
+            logger.logV("Net") { it }
+        }.apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
         return OkHttpClient.Builder()

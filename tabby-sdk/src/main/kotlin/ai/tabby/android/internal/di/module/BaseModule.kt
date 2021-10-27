@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
 internal class BaseModule(
@@ -17,13 +18,16 @@ internal class BaseModule(
     }
 
     @Provides
+    @Singleton
     fun provideContext() = context
 
     @Provides
+    @Singleton
     @Named(BASE_URL_KEY)
     fun provideBaseUrl() = "https://api.tabby.ai/"
 
     @Provides
+    @Singleton
     @Named(API_KEY_KEY)
     fun provideApiKey() = apiKey
 

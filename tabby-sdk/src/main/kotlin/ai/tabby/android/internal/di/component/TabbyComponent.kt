@@ -2,8 +2,10 @@ package ai.tabby.android.internal.di.component
 
 import ai.tabby.android.Tabby
 import ai.tabby.android.internal.di.module.DispatcherModule
+import ai.tabby.android.internal.di.module.LoggerModule
 import ai.tabby.android.internal.di.module.NetworkModule
 import ai.tabby.android.internal.di.module.TabbyModule
+import ai.tabby.android.internal.logger.TabbyLogger
 import android.content.Context
 import dagger.Component
 import javax.inject.Scope
@@ -42,4 +44,6 @@ internal interface TabbyComponent {
     }
 
     fun provideTabby(): Tabby
+
+    fun provideLogger(): TabbyLogger
 }

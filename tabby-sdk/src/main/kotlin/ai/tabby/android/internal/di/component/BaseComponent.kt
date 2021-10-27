@@ -1,6 +1,8 @@
 package ai.tabby.android.internal.di.component
 
 import ai.tabby.android.internal.di.module.BaseModule
+import ai.tabby.android.internal.di.module.LoggerModule
+import ai.tabby.android.internal.logger.TabbyLogger
 import android.content.Context
 import dagger.Component
 import javax.inject.Named
@@ -8,7 +10,8 @@ import javax.inject.Singleton
 
 @Component(
     modules = [
-        BaseModule::class
+        BaseModule::class,
+        LoggerModule::class,
     ]
 )
 @Singleton
@@ -37,5 +40,7 @@ internal interface BaseComponent {
 
     @Named(BaseModule.API_KEY_KEY)
     fun provideApiKey(): String
+
+    fun provideLogger(): TabbyLogger
 
 }
