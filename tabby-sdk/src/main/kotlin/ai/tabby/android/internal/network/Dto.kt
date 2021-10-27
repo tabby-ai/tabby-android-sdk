@@ -59,7 +59,7 @@ internal enum class ProductTypeRest(
     }
 }
 
-internal data class CheckoutPayload(
+internal data class CheckoutPayloadDto(
 
     @SerializedName("merchant_code")
     val merchantCode: String,
@@ -69,7 +69,21 @@ internal data class CheckoutPayload(
 
     @SerializedName("payment")
     val payment: PaymentDto
-)
+
+) {
+    companion object {
+        fun fromPaymentAndParams(
+            merchantCode: String,
+            lang: Lang,
+            payment: Payment
+        ): CheckoutPayloadDto =
+            CheckoutPayloadDto(
+                merchantCode = merchantCode,
+                lang = LangRest.fromLang(lang),
+                payment = PaymentDto.fromPayment(payment)
+            )
+    }
+}
 
 internal data class PaymentDto(
 
@@ -214,6 +228,40 @@ internal data class CheckoutSessionDto(
     @SerializedName("id")
     val id: String,
 
-    // todo add more fields
-)
+    @SerializedName("available_products")
+    val availableProducts: ProductContainerDto
 
+) {
+    fun toSession(): Session =
+        Session(
+            id = id,
+            availableProducts = availableProducts.toProductList()
+        )
+}
+
+internal data class ProductContainerDto(
+
+    @SerializedName("installments")
+    val installments: ProductDto? = null,
+
+    @SerializedName("pay_later")
+    val payLater: ProductDto? = null,
+) {
+    fun toProductList(): List<Product> =
+        listOfNotNull(
+            installments?.toProduct(ProductType.INSTALLMENTS),
+            payLater?.toProduct(ProductType.PAY_LATER)
+        )
+}
+
+internal data class ProductDto(
+
+    @SerializedName("web_url")
+    val webUrl: String
+) {
+    fun toProduct(type: ProductType) =
+        Product(
+            type = type,
+            webUrl = webUrl
+        )
+}

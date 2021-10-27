@@ -1,6 +1,8 @@
 package ai.tabby.android.internal.di.component
 
 import ai.tabby.android.Tabby
+import ai.tabby.android.internal.di.module.DispatcherModule
+import ai.tabby.android.internal.di.module.NetworkModule
 import ai.tabby.android.internal.di.module.TabbyModule
 import android.content.Context
 import dagger.Component
@@ -12,7 +14,9 @@ internal annotation class TabbyScope
 
 @Component(
     modules = [
-        TabbyModule::class
+        TabbyModule::class,
+        NetworkModule::class,
+        DispatcherModule::class,
     ],
     dependencies = [
         BaseComponent::class
@@ -25,13 +29,11 @@ internal interface TabbyComponent {
 
         fun create(
             context: Context,
-            baseUrl: String,
-            merchantId: String,
+            apiKey: String,
         ): TabbyComponent {
             val baseComponent = BaseComponent.create(
                 context = context,
-                baseUrl = baseUrl,
-                merchantId = merchantId
+                apiKey = apiKey
             )
             return DaggerTabbyComponent.builder()
                 .baseComponent(baseComponent)

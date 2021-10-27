@@ -18,20 +18,24 @@ internal interface BaseComponent {
 
         fun create(
             context: Context,
-            baseUrl: String,
-            merchantId: String,
+            apiKey: String,
         ): BaseComponent = DaggerBaseComponent.builder()
             .baseModule(
                 BaseModule(
                     context = context,
-                    baseUrl = baseUrl,
-                    merchantId = merchantId
+                    apiKey = apiKey
                 )
             )
             .build()
 
     }
 
+    fun provideContext(): Context
+
     @Named(BaseModule.BASE_URL_KEY)
     fun provideBaseUrl(): String
+
+    @Named(BaseModule.API_KEY_KEY)
+    fun provideApiKey(): String
+
 }

@@ -12,10 +12,9 @@ object TabbyFactory {
         tabbyComponentRef.get()?.provideTabby() ?:
             throw NullPointerException("Tabby factory is not initialized! Call initAndGet() first.")
 
-    fun initAndGet(
+    fun setup(
         context: Context,
-        baseUrl: String,
-        merchantId: String,
+        apiKey: String,
     ): Tabby {
         val component = tabbyComponentRef.get()
         if (component != null) {
@@ -25,8 +24,7 @@ object TabbyFactory {
             if (tabbyComponentRef.get() == null) {
                 val newComponent = TabbyComponent.create(
                     context = context,
-                    baseUrl = baseUrl,
-                    merchantId = merchantId,
+                    apiKey = apiKey,
                 )
                 tabbyComponentRef.set(newComponent)
             }

@@ -8,13 +8,12 @@ import javax.inject.Named
 @Module
 internal class BaseModule(
     private val context: Context,
-    private val baseUrl: String,
-    private val merchantId: String,
+    private val apiKey: String,
 ) {
 
     companion object {
         const val BASE_URL_KEY = "baseUrl"
-        const val MERCHANT_ID_KEY = "merchantId"
+        const val API_KEY_KEY = "apiKey"
     }
 
     @Provides
@@ -22,10 +21,10 @@ internal class BaseModule(
 
     @Provides
     @Named(BASE_URL_KEY)
-    fun provideBaseUrl() = baseUrl
+    fun provideBaseUrl() = "https://api.tabby.ai/"
 
     @Provides
-    @Named(MERCHANT_ID_KEY)
-    fun provideMerchantId() = merchantId
+    @Named(API_KEY_KEY)
+    fun provideApiKey() = apiKey
 
 }
