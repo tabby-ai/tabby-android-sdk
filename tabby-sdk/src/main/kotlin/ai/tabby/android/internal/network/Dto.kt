@@ -59,6 +59,18 @@ internal enum class ProductTypeRest(
     }
 }
 
+internal data class CheckoutPayload(
+
+    @SerializedName("merchant_code")
+    val merchantCode: String,
+
+    @SerializedName("lang")
+    val lang: LangRest,
+
+    @SerializedName("payment")
+    val payment: PaymentDto
+)
+
 internal data class PaymentDto(
 
     @SerializedName("amount")
@@ -78,6 +90,7 @@ internal data class PaymentDto(
 
     @SerializedName("shipping_address")
     val shippingAddress: ShippingAddressDto? = null,
+
 ) {
     companion object {
         fun fromPayment(p: Payment): PaymentDto =
@@ -195,3 +208,12 @@ internal data class BuyerDto(
             )
     }
 }
+
+internal data class CheckoutSessionDto(
+
+    @SerializedName("id")
+    val id: String,
+
+    // todo add more fields
+)
+
