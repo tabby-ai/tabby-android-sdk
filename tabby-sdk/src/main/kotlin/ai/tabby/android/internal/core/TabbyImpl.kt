@@ -34,9 +34,10 @@ internal class TabbyImpl @Inject constructor(
             payment = payment
         )
         logger.logV(TAG) { "Session payload $payload" }
+        val bearerApiKey = "Bearer $apiKey"
         val sessionDto = withContext(ioDispatcher) {
             tabbyService.createSession(
-                apiKey = apiKey,
+                apiKey = bearerApiKey,
                 request = payload
             )
         }

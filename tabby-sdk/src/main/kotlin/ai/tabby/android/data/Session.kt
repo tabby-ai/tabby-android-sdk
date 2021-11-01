@@ -1,5 +1,10 @@
 package ai.tabby.android.data
 
+enum class ProductType {
+    PAY_LATER,
+    INSTALLMENTS,
+}
+
 data class Session(
 
     val id: String,

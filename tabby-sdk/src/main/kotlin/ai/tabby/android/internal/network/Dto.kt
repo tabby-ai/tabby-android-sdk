@@ -228,30 +228,35 @@ internal data class CheckoutSessionDto(
     @SerializedName("id")
     val id: String,
 
-    @SerializedName("available_products")
-    val availableProducts: ProductContainerDto
-
+    @SerializedName("configuration")
+    val config: ConfigurationDto,
 ) {
     fun toSession(): Session =
         Session(
             id = id,
-            availableProducts = availableProducts.toProductList()
+            availableProducts = config.availableProducts.toProductList()
         )
 }
+
+internal data class ConfigurationDto(
+
+    @SerializedName("available_products")
+    val availableProducts: ProductContainerDto
+)
 
 internal data class ProductContainerDto(
 
     @SerializedName("installments")
-    val installments: ProductDto? = null,
+    val installmentsList: List<ProductDto>? = null,
 
     @SerializedName("pay_later")
-    val payLater: ProductDto? = null,
+    val payLaterList: List<ProductDto>? = null,
 ) {
     fun toProductList(): List<Product> =
         listOfNotNull(
-            installments?.toProduct(ProductType.INSTALLMENTS),
-            payLater?.toProduct(ProductType.PAY_LATER)
-        )
+            installmentsList?.map { it.toProduct(ProductType.INSTALLMENTS) },
+            payLaterList?.map { it.toProduct(ProductType.PAY_LATER) }
+        ).flatten()
 }
 
 internal data class ProductDto(

@@ -6,7 +6,7 @@ import retrofit2.http.POST
 
 internal interface TabbyService {
 
-    @POST("api/v2/checkout/")
+    @POST("api/v2/checkout") // Do not add end slash
     suspend fun createSession(
         @Header("Authorization") apiKey: String,
         @Body request: CheckoutPayloadDto
