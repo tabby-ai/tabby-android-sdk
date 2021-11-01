@@ -3,4 +3,6 @@
     package="ai.tabby.android"
     >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>
