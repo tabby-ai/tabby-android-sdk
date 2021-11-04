@@ -1,4 +1,4 @@
-package ai.tabby.android
+package ai.tabby.android.core
 
 import ai.tabby.android.data.Lang
 import ai.tabby.android.data.Payment

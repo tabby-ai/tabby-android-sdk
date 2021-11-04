@@ -1,6 +1,6 @@
 package ai.tabby.android.internal.di.module
 
-import ai.tabby.android.Tabby
+import ai.tabby.android.core.Tabby
 import ai.tabby.android.internal.core.TabbyImpl
 import ai.tabby.android.internal.logger.TabbyLogger
 import ai.tabby.android.internal.network.TabbyService

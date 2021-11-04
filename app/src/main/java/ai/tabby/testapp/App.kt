@@ -1,6 +1,6 @@
 package ai.tabby.testapp
 
-import ai.tabby.android.TabbyFactory
+import ai.tabby.android.core.TabbyFactory
 import android.app.Application
 
 class App : Application() {

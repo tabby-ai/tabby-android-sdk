@@ -18,7 +18,7 @@ internal class NetworkModule {
         logger: TabbyLogger
     ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor {
-            logger.logV("Net") { it }
+            logger.v("Net") { it }
         }.apply {
             level = HttpLoggingInterceptor.Level.BODY
         }

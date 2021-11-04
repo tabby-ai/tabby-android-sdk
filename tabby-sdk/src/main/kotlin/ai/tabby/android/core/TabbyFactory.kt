@@ -1,4 +1,4 @@
-package ai.tabby.android
+package ai.tabby.android.core
 
 import ai.tabby.android.internal.di.component.TabbyComponent
 import android.content.Context
@@ -8,7 +8,8 @@ object TabbyFactory {
 
     private val tabbyComponentRef = AtomicReference<TabbyComponent?>(null)
 
-    val tabby: Tabby get() =
+    val tabby: Tabby
+        get() =
         tabbyComponentRef.get()?.provideTabby() ?:
             throw NullPointerException("Tabby factory is not initialized! Call initAndGet() first.")
 

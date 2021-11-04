@@ -1,6 +1,6 @@
 package ai.tabby.testapp
 
-import ai.tabby.android.TabbyFactory
+import ai.tabby.android.core.TabbyFactory
 import ai.tabby.android.data.Lang
 import ai.tabby.android.data.Product
 import ai.tabby.android.data.Session

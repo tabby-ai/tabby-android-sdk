@@ -1,8 +1,7 @@
 package ai.tabby.android.internal.di.component
 
-import ai.tabby.android.Tabby
+import ai.tabby.android.core.Tabby
 import ai.tabby.android.internal.di.module.DispatcherModule
-import ai.tabby.android.internal.di.module.LoggerModule
 import ai.tabby.android.internal.di.module.NetworkModule
 import ai.tabby.android.internal.di.module.TabbyModule
 import ai.tabby.android.internal.logger.TabbyLogger

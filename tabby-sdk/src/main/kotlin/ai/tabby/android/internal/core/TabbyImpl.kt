@@ -1,6 +1,6 @@
 package ai.tabby.android.internal.core
 
-import ai.tabby.android.Tabby
+import ai.tabby.android.core.Tabby
 import ai.tabby.android.data.Lang
 import ai.tabby.android.data.Payment
 import ai.tabby.android.data.Session
@@ -27,13 +27,13 @@ internal class TabbyImpl @Inject constructor(
         lang: Lang,
         payment: Payment
     ): Session {
-        logger.logV(TAG) { "Creating session from mc: '$merchantCode', lang: '$lang', payment: $payment"}
+        logger.v(TAG) { "Creating session from mc: '$merchantCode', lang: '$lang', payment: $payment"}
         val payload = CheckoutPayloadDto.fromPaymentAndParams(
             merchantCode = merchantCode,
             lang = lang,
             payment = payment
         )
-        logger.logV(TAG) { "Session payload $payload" }
+        logger.v(TAG) { "Session payload $payload" }
         val bearerApiKey = "Bearer $apiKey"
         val sessionDto = withContext(ioDispatcher) {
             tabbyService.createSession(
@@ -42,7 +42,7 @@ internal class TabbyImpl @Inject constructor(
             )
         }
         val session = sessionDto.toSession()
-        logger.logV(TAG) { "Session is created: $session" }
+        logger.v(TAG) { "Session is created: $session" }
         return session
     }
 
