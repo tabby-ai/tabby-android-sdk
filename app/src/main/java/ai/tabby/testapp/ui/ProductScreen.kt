@@ -4,7 +4,7 @@ import ai.tabby.android.data.Product
 import ai.tabby.android.data.ProductType
 import ai.tabby.android.data.Session
 import ai.tabby.testapp.MainViewModel
-import ai.tabby.testapp.ui.theme.TabbySDKTheme
+import ai.tabby.testapp.ui.theme.TabbyAppTheme
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -20,9 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ProductScreen(viewModel: MainViewModel) {
+fun ProductScreen(
+    viewModel: MainViewModel,
+    onProductSelected: (Product) -> Unit
+) {
     val state = viewModel.screenStateFlow.collectAsState()
-    TabbySDKTheme {
+    TabbyAppTheme {
         Surface(color = MaterialTheme.colors.background) {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -31,7 +34,7 @@ fun ProductScreen(viewModel: MainViewModel) {
             ) {
                 state.value.session?.availableProducts?.forEach {
                     ProductButton(product = it) {
-                        viewModel.startProduct(it)
+                        onProductSelected(it)
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -63,7 +66,7 @@ fun ProductButton(product: Product, onClick: () -> Unit) {
 )
 @Composable
 fun ProductPreview() {
-    ProductScreen(viewModel = MainViewModel().putDemoData())
+    ProductScreen(viewModel = MainViewModel().putDemoData()) {}
 }
 
 fun MainViewModel.putDemoData(): MainViewModel {

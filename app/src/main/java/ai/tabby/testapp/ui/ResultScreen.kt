@@ -1,5 +1,6 @@
 package ai.tabby.testapp.ui
 
+import ai.tabby.android.data.TabbyResult
 import ai.tabby.testapp.MainViewModel
 import ai.tabby.testapp.ScreenState
 import ai.tabby.testapp.ui.theme.TabbyAppTheme
@@ -17,39 +18,48 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun InitialScreen(viewModel: MainViewModel) {
+fun CheckoutResultScreen(
+    viewModel: MainViewModel,
+) {
     val state = viewModel.screenStateFlow.collectAsState()
     TabbyAppTheme {
-        // A surface container using the 'background' color from the theme
         Surface(color = MaterialTheme.colors.background) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                StartSessionButton(state, onClick = viewModel::startSession)
+                ResultStatusText(state = state)
                 Spacer(modifier = Modifier.height(12.dp))
-                SessionStatus(state)
+                RestartButton {
+                    viewModel.resetToInitialState()
+                }
             }
         }
     }
 }
 
 @Composable
-fun StartSessionButton(state: State<ScreenState>, onClick: () -> Unit) {
-    Button(
-        enabled = state.value.sessionStatus != ScreenState.SessionStatus.CREATING,
-        onClick = onClick
-    ) {
+fun ResultStatusText(state: State<ScreenState>) {
+    Text(
+        text = when (state.value.checkoutResult?.result) {
+            TabbyResult.Result.AUTHORIZED -> "Authorized"
+            TabbyResult.Result.REJECTED -> "Rejected"
+            TabbyResult.Result.CLOSED -> "just closed"
+            TabbyResult.Result.EXPIRED -> "session is expired"
+            else -> "UNKNOWN RESULT"
+        },
+        fontSize = 20.sp
+    )
+}
+
+@Composable
+fun RestartButton(onClick: () -> Unit) {
+    Button(onClick = onClick) {
         Text(
-            text = "Start session",
+            text = "Restart",
             style = MaterialTheme.typography.button,
             fontSize = 18.sp
         )
     }
-}
-
-@Composable
-fun SessionStatus(state: State<ScreenState>) {
-    Text(text = state.value.sessionStatus.text)
 }
