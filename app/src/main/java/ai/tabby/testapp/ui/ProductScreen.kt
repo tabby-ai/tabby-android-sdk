@@ -2,7 +2,7 @@ package ai.tabby.testapp.ui
 
 import ai.tabby.android.data.Product
 import ai.tabby.android.data.ProductType
-import ai.tabby.android.data.Session
+import ai.tabby.android.data.TabbySession
 import ai.tabby.testapp.MainViewModel
 import ai.tabby.testapp.ui.theme.TabbyAppTheme
 import android.content.res.Configuration
@@ -71,7 +71,7 @@ fun ProductPreview() {
 
 fun MainViewModel.putDemoData(): MainViewModel {
     onSessionSucceeded(
-        Session(
+        TabbySession(
             id = "xxxx",
             availableProducts = listOf(
                 Product(

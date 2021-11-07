@@ -2,7 +2,7 @@ package ai.tabby.android.data
 
 import java.math.BigDecimal
 
-data class Payment(
+data class TabbyPayment(
 
     val amount: BigDecimal,
 

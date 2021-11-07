@@ -75,7 +75,7 @@ internal data class CheckoutPayloadDto(
         fun fromPaymentAndParams(
             merchantCode: String,
             lang: Lang,
-            payment: Payment
+            payment: TabbyPayment
         ): CheckoutPayloadDto =
             CheckoutPayloadDto(
                 merchantCode = merchantCode,
@@ -107,7 +107,7 @@ internal data class PaymentDto(
 
 ) {
     companion object {
-        fun fromPayment(p: Payment): PaymentDto =
+        fun fromPayment(p: TabbyPayment): PaymentDto =
             PaymentDto(
                 amount = p.amount,
                 currency = CurrencyRest.fromCurrency(p.currency),
@@ -231,8 +231,8 @@ internal data class CheckoutSessionDto(
     @SerializedName("configuration")
     val config: ConfigurationDto,
 ) {
-    fun toSession(): Session =
-        Session(
+    fun toSession(): TabbySession =
+        TabbySession(
             id = id,
             availableProducts = config.availableProducts.toProductList()
         )

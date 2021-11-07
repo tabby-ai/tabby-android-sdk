@@ -32,7 +32,7 @@ internal class NetworkModule {
     fun provideTabbyService(
         @Named(BaseModule.BASE_URL_KEY) baseUrl: String,
         okHttpClient: OkHttpClient
-    ): TabbyService =
+    ): TabbyService = // todo make sure there is only one instance is created
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)

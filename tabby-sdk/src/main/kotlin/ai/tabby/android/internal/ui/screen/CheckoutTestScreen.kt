@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-internal fun TestCheckoutScreen(onResult: (TabbyResult) -> Unit) {
+internal fun CheckoutTestScreen(onResult: (TabbyResult) -> Unit) {
     TabbySdkTheme {
         Surface(color = MaterialTheme.colors.background) {
             Column(
@@ -53,5 +53,5 @@ internal fun ActionButton(text: String, onClick: () -> Unit) {
 )
 @Composable
 fun TestPreview() {
-    TestCheckoutScreen { }
+    CheckoutTestScreen { }
 }

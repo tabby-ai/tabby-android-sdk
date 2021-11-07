@@ -3,9 +3,8 @@ package ai.tabby.testapp
 import ai.tabby.android.core.TabbyFactory
 import ai.tabby.android.data.Lang
 import ai.tabby.android.data.Product
-import ai.tabby.android.data.Session
+import ai.tabby.android.data.TabbySession
 import ai.tabby.android.data.TabbyResult
-import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -37,7 +36,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    internal fun onSessionSucceeded(s: Session) {
+    internal fun onSessionSucceeded(s: TabbySession) {
         mutableStateFlow.value = ScreenState(
             state = ScreenState.State.PRODUCT,
             sessionStatus = ScreenState.SessionStatus.SUCCESSFUL,
@@ -73,7 +72,7 @@ class MainViewModel : ViewModel() {
 data class ScreenState(
     val state: State,
     val sessionStatus: SessionStatus,
-    val session: Session? = null,
+    val session: TabbySession? = null,
     val checkoutResult: TabbyResult? = null
 ) {
     enum class State {

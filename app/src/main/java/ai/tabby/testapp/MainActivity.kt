@@ -33,10 +33,10 @@ class MainActivity : ComponentActivity() {
 
     private fun onProductSelected(product: Product) {
         val i = viewModel.createCheckoutIntent(product)
-        requestForCheckout.launch(i)
+        checkoutContract.launch(i)
     }
 
-    private val requestForCheckout =
+    private val checkoutContract =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 RESULT_OK -> {

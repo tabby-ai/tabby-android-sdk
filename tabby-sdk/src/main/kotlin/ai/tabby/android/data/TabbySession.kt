@@ -9,7 +9,7 @@ enum class ProductType {
 }
 
 @Parcelize
-data class Session(
+data class TabbySession(
 
     val id: String,
 

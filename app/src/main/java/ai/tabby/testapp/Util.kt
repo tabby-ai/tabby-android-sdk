@@ -3,7 +3,7 @@ package ai.tabby.testapp
 import ai.tabby.android.data.*
 import java.math.BigDecimal
 
-fun createDefaultPayment() = Payment(
+fun createDefaultPayment() = TabbyPayment(
     amount = BigDecimal(340),
     currency = Currency.AED,
     description = "tabby Store Order #33",

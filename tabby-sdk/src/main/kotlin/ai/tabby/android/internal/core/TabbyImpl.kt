@@ -2,9 +2,9 @@ package ai.tabby.android.internal.core
 
 import ai.tabby.android.core.Tabby
 import ai.tabby.android.data.Lang
-import ai.tabby.android.data.Payment
+import ai.tabby.android.data.TabbyPayment
 import ai.tabby.android.data.Product
-import ai.tabby.android.data.Session
+import ai.tabby.android.data.TabbySession
 import ai.tabby.android.internal.logger.TabbyLogger
 import ai.tabby.android.internal.network.CheckoutPayloadDto
 import ai.tabby.android.internal.network.TabbyService
@@ -30,8 +30,8 @@ internal class TabbyImpl @Inject constructor(
     override suspend fun createSession(
         merchantCode: String,
         lang: Lang,
-        payment: Payment
-    ): Session {
+        payment: TabbyPayment
+    ): TabbySession {
         logger.v(TAG) { "Creating session from mc: '$merchantCode', lang: '$lang', payment: $payment"}
         val payload = CheckoutPayloadDto.fromPaymentAndParams(
             merchantCode = merchantCode,
@@ -54,6 +54,8 @@ internal class TabbyImpl @Inject constructor(
     override fun createCheckoutIntent(
         product: Product
     ): Intent =
-        Intent(context, CheckoutActivity::class.java)
+        Intent(context, CheckoutActivity::class.java).apply {
+            putExtra(CheckoutActivity.EXTRA_WEB_URL, product.webUrl)
+        }
 
 }
