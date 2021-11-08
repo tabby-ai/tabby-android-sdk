@@ -3,13 +3,14 @@ package ai.tabby.testapp
 import ai.tabby.android.data.*
 import java.math.BigDecimal
 
+// pin: 8888
 fun createDefaultPayment() = TabbyPayment(
     amount = BigDecimal(340),
     currency = Currency.AED,
     description = "tabby Store Order #33",
     buyer = Buyer(
-        email = "daniil.barkalov@tabby.ai",
-        phone = "+971585829064",
+        email = "successful.payment@tabby.ai",
+        phone = "500000001",
         name = "Daniil Barkalov"
     ),
     order = Order(

@@ -8,8 +8,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class TabbyResult(
 
-//    val session: Session,
-
     val result: Result
 
 ) : Parcelable {
