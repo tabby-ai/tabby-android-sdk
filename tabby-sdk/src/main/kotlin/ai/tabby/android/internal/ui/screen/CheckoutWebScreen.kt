@@ -11,6 +11,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 @Composable
 internal fun CheckoutWebScreen(
     url: String,
+    webChromeClient: WebChromeClient,
     onResult: (TabbyResult) -> Unit
 ) {
     AndroidView(
@@ -27,6 +28,7 @@ internal fun CheckoutWebScreen(
                 addJavascriptInterface(WebListener(onResult), "tabbyMobileSDK")
 
                 webViewClient = WebViewClient()
+                this.webChromeClient = webChromeClient
 
                 setOnKeyListener { _, _, keyEvent ->
                     if (keyEvent.keyCode == KeyEvent.KEYCODE_BACK && !canGoBack()) {
@@ -70,25 +72,3 @@ private class WebListener(
     }
 }
 
-//private val webChromeClient = object : WebChromeClient() {
-//    override fun onShowFileChooser(
-//        webView: WebView?,
-//        filePathCallback: ValueCallback<Array<Uri>>?,
-//        fileChooserParams: FileChooserParams?
-//    ): Boolean {
-//        uploadMessageCallback = filePathCallback
-//        openImageChooser()
-//
-//        return true
-//    }
-//
-//    private fun openImageChooser() {
-//        val i = Intent(Intent.ACTION_GET_CONTENT)
-//        i.addCategory(Intent.CATEGORY_OPENABLE)
-//        i.type = "image/*"
-//        startActivityForResult(
-//            Intent.createChooser(i, "Image Chooser"),
-//            1
-//        )
-//    }
-//}
