@@ -31,12 +31,14 @@ internal fun CheckoutWebScreen(
                 this.webChromeClient = webChromeClient
 
                 setOnKeyListener { _, _, keyEvent ->
-                    if (keyEvent.keyCode == KeyEvent.KEYCODE_BACK && !canGoBack()) {
-                        false
-                    } else if (keyEvent.keyCode == KeyEvent.KEYCODE_BACK && keyEvent.action == MotionEvent.ACTION_UP) {
-                        goBack()
-                        true
-                    } else true
+                    when (keyEvent.keyCode) {
+                        KeyEvent.KEYCODE_BACK -> when {
+                            !canGoBack() -> false
+                            keyEvent.action == MotionEvent.ACTION_UP -> { goBack(); true }
+                            else -> true
+                        }
+                        else -> true
+                    }
                 }
 
                 loadUrl(url)
