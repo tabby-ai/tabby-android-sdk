@@ -3,15 +3,12 @@ package ai.tabby.android.data
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-enum class ProductType {
-    PAY_LATER,
-    INSTALLMENTS,
-}
-
 @Parcelize
 data class TabbySession(
 
     val id: String,
+
+    val paymentId: String,
 
     val availableProducts: List<Product>
 
@@ -25,3 +22,9 @@ data class Product(
     val webUrl: String
 
 ) : Parcelable
+
+enum class ProductType {
+    PAY_LATER,
+    INSTALLMENTS,
+}
+

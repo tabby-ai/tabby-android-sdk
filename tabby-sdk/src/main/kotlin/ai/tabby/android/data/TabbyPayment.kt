@@ -1,7 +1,10 @@
 package ai.tabby.android.data
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
 
+@Parcelize
 data class TabbyPayment(
 
     val amount: BigDecimal,
@@ -14,9 +17,11 @@ data class TabbyPayment(
 
     val order: Order? = null,
 
-    val shippingAddress: ShippingAddress? = null,
-)
+    val shippingAddress: ShippingAddress? = null
 
+) : Parcelable
+
+@Parcelize
 data class Order(
 
     val refId: String,
@@ -25,9 +30,11 @@ data class Order(
 
     val shippingAmount: BigDecimal? = null,
 
-    val taxAmount: BigDecimal? = null,
-)
+    val taxAmount: BigDecimal? = null
 
+) : Parcelable
+
+@Parcelize
 data class OrderItem(
 
     val refId: String,
@@ -40,16 +47,20 @@ data class OrderItem(
 
     val unitPrice: BigDecimal,
 
-    val quantity: Int,
-)
+    val quantity: Int
 
+) : Parcelable
+
+@Parcelize
 data class ShippingAddress(
 
     val address: String,
 
-    val city: String,
-)
+    val city: String
 
+) : Parcelable
+
+@Parcelize
 data class Buyer(
 
     val email: String,
@@ -58,5 +69,6 @@ data class Buyer(
 
     val name: String,
 
-    val dob: String? = null,
-)
+    val dob: String? = null
+
+) : Parcelable

@@ -73,6 +73,7 @@ fun MainViewModel.putDemoData(): MainViewModel {
     onSessionSucceeded(
         TabbySession(
             id = "xxxx",
+            paymentId = "xxxx",
             availableProducts = listOf(
                 Product(
                     ProductType.INSTALLMENTS,

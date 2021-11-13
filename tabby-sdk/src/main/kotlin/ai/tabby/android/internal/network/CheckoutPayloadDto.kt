@@ -4,61 +4,6 @@ import ai.tabby.android.data.*
 import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
 
-internal enum class LangRest(
-    val publicLang: Lang
-) {
-
-    @SerializedName("en") EN(Lang.EN),
-
-    @SerializedName("ar") AR(Lang.AR),
-
-    ;
-
-    companion object {
-        fun fromLang(l: Lang): LangRest =
-            values().find { it.publicLang == l }
-                ?: throw IllegalArgumentException("Language $l not found")
-    }
-}
-
-internal enum class CurrencyRest(
-    val publicCurrency: Currency
-) {
-
-    @SerializedName("AED") AED(Currency.AED),
-
-    @SerializedName("SAR") SAR(Currency.SAR),
-
-    @SerializedName("BHD") BHD(Currency.BHD),
-
-    @SerializedName("KWD") KWD(Currency.KWD),
-
-    ;
-
-    companion object {
-        fun fromCurrency(c: Currency): CurrencyRest =
-            values().find { it.publicCurrency == c }
-                ?: throw IllegalArgumentException("Currency $c not found")
-    }
-}
-
-internal enum class ProductTypeRest(
-    val publicProductType: ProductType
-) {
-
-    @SerializedName("pay_later") PAY_LATER(ProductType.PAY_LATER),
-
-    @SerializedName("installments") INSTALLMENTS(ProductType.INSTALLMENTS),
-
-    ;
-
-    companion object {
-        fun fromProductType(p: ProductType): ProductTypeRest =
-            values().find { it.publicProductType == p }
-                ?: throw IllegalArgumentException("Product type $p not found")
-    }
-}
-
 internal data class CheckoutPayloadDto(
 
     @SerializedName("merchant_code")
@@ -105,7 +50,7 @@ internal data class PaymentDto(
     @SerializedName("shipping_address")
     val shippingAddress: ShippingAddressDto? = null,
 
-) {
+    ) {
     companion object {
         fun fromPayment(p: TabbyPayment): PaymentDto =
             PaymentDto(
@@ -133,7 +78,7 @@ internal data class OrderDto(
     @SerializedName("tax_amount")
     val taxAmount: BigDecimal? = null,
 
-) {
+    ) {
     companion object {
         fun fromOrder(o: Order): OrderDto =
             OrderDto(
@@ -165,7 +110,7 @@ internal data class OrderItemDto(
     @SerializedName("quantity")
     val quantity: Int,
 
-) {
+    ) {
     companion object {
         fun fromOrderItem(i: OrderItem): OrderItemDto =
             OrderItemDto(
@@ -187,7 +132,7 @@ internal data class ShippingAddressDto(
     @SerializedName("city")
     val city: String,
 
-) {
+    ) {
     companion object {
         fun fromShippingAddress(a: ShippingAddress): ShippingAddressDto =
             ShippingAddressDto(
@@ -211,7 +156,7 @@ internal data class BuyerDto(
     @SerializedName("dob")
     val dob: String? = null,
 
-) {
+    ) {
     companion object {
         fun fromBuyer(b: Buyer): BuyerDto =
             BuyerDto(
@@ -221,52 +166,4 @@ internal data class BuyerDto(
                 dob = b.dob
             )
     }
-}
-
-internal data class CheckoutSessionDto(
-
-    @SerializedName("id")
-    val id: String,
-
-    @SerializedName("configuration")
-    val config: ConfigurationDto,
-) {
-    fun toSession(): TabbySession =
-        TabbySession(
-            id = id,
-            availableProducts = config.availableProducts.toProductList()
-        )
-}
-
-internal data class ConfigurationDto(
-
-    @SerializedName("available_products")
-    val availableProducts: ProductContainerDto
-)
-
-internal data class ProductContainerDto(
-
-    @SerializedName("installments")
-    val installmentsList: List<ProductDto>? = null,
-
-    @SerializedName("pay_later")
-    val payLaterList: List<ProductDto>? = null,
-) {
-    fun toProductList(): List<Product> =
-        listOfNotNull(
-            installmentsList?.map { it.toProduct(ProductType.INSTALLMENTS) },
-            payLaterList?.map { it.toProduct(ProductType.PAY_LATER) }
-        ).flatten()
-}
-
-internal data class ProductDto(
-
-    @SerializedName("web_url")
-    val webUrl: String
-) {
-    fun toProduct(type: ProductType) =
-        Product(
-            type = type,
-            webUrl = webUrl
-        )
 }

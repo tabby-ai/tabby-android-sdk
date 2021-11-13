@@ -27,7 +27,8 @@ class MainViewModel : ViewModel() {
                 TabbyFactory.tabby.createSession(
                     merchantCode = "ae",
                     lang = Lang.EN,
-                    payment = createDefaultPayment()
+                    payment = createSuccessfulPayment()
+//                    payment = createRejectedPayment()
                 )
             }
             result.getOrNull()?.let {
