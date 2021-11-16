@@ -15,21 +15,31 @@ import kotlinx.parcelize.Parcelize
  *
  * If your app uses [ActivityResultContracts] you can do the following in your activity:
  *
- *       ```
- *       private val checkoutContract =
- *           registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
- *               when (result.resultCode) {
- *                   ComponentActivity.RESULT_OK -> {
- *                       result.tabbyResult?.let { tabbyResult ->
- *                           viewModel.onCheckoutResult(tabbyResult)
- *                       } ?: // Tabby result is null
- *                   }
- *                   else -> {
- *                      // Result is not OK
- *                   }
- *               }
- *           }
- *       ```
+ * ```
+ *      private val checkoutContract =
+ *          registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+ *              when (result.resultCode) {
+ *                  ComponentActivity.RESULT_OK -> {
+ *                      result.tabbyResult?.let { tabbyResult ->
+ *                          // Proceed with tabby result
+ *                          // ...
+ *
+ *                      } ?: // Tabby result is null
+ *                  }
+ *                  else -> {
+ *                     // Result is not OK
+ *                  }
+ *              }
+ *          }
+ *
+ *      // ...
+ *
+ *      private fun onProductSelected(product: Product) {
+ *          val i = TabbyFactory.tabby.createCheckoutIntent(product)
+ *          checkoutContract.launch(i)
+ *      }
+ * ```
+ *
  * @see ActivityResult.tabbyResult
  * @see Intent.tabbyResult
 */
