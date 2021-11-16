@@ -3,6 +3,11 @@ package ai.tabby.android.data
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
+/**
+ * Tabby session returned by the [createSession][ai.tabby.android.core.Tabby.createSession]
+ *
+ * @see ai.tabby.android.core.Tabby.createSession
+ */
 @Parcelize
 data class TabbySession(
 

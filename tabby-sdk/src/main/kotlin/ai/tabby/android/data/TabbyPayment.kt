@@ -4,6 +4,11 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
 
+/**
+ * Root class of Tabby Payment Configuration.
+ *
+ * @see ai.tabby.android.core.Tabby.createSession
+ */
 @Parcelize
 data class TabbyPayment(
 

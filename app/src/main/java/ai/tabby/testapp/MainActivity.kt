@@ -40,8 +40,8 @@ class MainActivity : ComponentActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 RESULT_OK -> {
-                    result.tabbyResult?.let {
-                        viewModel.onCheckoutResult(it)
+                    result.tabbyResult?.let { tabbyResult ->
+                        viewModel.onCheckoutResult(tabbyResult)
                     } ?: Toast.makeText(this, "Tabby result is null", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
