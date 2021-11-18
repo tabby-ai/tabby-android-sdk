@@ -24,7 +24,7 @@ Once initialized, `Tabby` instance always available via `TabbyFactory.tabby` pro
 The following code snippet shows example of simple always-successful payment:
 
 ```kotlin
-val paymentPayload = TabbyPayment(
+val tabbyPayment = TabbyPayment(
     amount = BigDecimal(340),
     currency = Currency.AED,
     description = "tabby Store Order #33",
@@ -60,45 +60,26 @@ val paymentPayload = TabbyPayment(
 Usually Tabby session is created when your checkout activity is created.
 
 ```kotlin
-class CheckoutViewModel : ViewModel() {
-
-    val sessionFlow = MutableStateFlow<TabbySession?>(null)
-    
-    fun createTabbySession() {
-        viewModelScope.launch {
-            val result = runCatching {
-                TabbyFactory.tabby.createSession(
-                    merchantCode = "ae",
-                    lang = Lang.EN,
-                    payment = paymentPayload
-                )
-            }
-            result.getOrNull()?.let { tabbySession ->
-                sessionFlow.value = tabbySession
-            } ?: onSessionFailed(result.exceptionOrNull())
-        }
-    }
-}
-    
 class CheckoutActivity : ComponentActivity() { 
-
-    private val viewModel: CheckoutViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         // Create tabby session once activity is created
-        viewModel.createTabbySession()
-        
-        // Collect session instance, which is created asynchronously
         lifecycleScope.launchWhenCreated {
-            viewModel.sessionFlow.collect { tabbySession: TabbySession? ->
-                tabbySession?.let {
-                    // Update UI with products
-                    it.availableProducts.forEach { product -> //.. }
+            val session = TabbyFactory.tabby.createSession(
+                merchantCode = "ae",
+                lang = Lang.EN,
+                payment = tabbyPayment
+            )
+            
+            // Update UI with Tabby products
+            withContext(Dispatchers.Main) {
+                for (product in session.availableProducts) {
+                    // ...
                 }
             }
-        }        
+        }
     }
 }
 ```
@@ -121,7 +102,7 @@ class CheckoutActivity : ComponentActivity() {
 
 ## Receive Checkout Result
 
-When your app launches Tabby Checkout, web view is shown allowing user to confirm their purchase. Once user is authorized (or rejected), result is returned to your checkout activity contract.
+When your app launches Tabby Checkout, a web view is shown allowing user to confirm their purchase. Once user is authorized (or rejected), result is returned to your checkout activity contract.
 
 ```kotlin
 class CheckoutActivity : ComponentActivity() {
@@ -140,13 +121,13 @@ class CheckoutActivity : ComponentActivity() {
             }
         }
         
-    private onCheckoutResult(tabbyResult: TabbyResult) {
+    private fun onCheckoutResult(tabbyResult: TabbyResult) {
         when (tabbyResult.result) {
-            TabbyResult.Result.AUTHORIZED ->  // Purchase is authorized
-            TabbyResult.Result.REJECTED ->    // Purchase is rejected
-            TabbyResult.Result.CLOSED ->      // Tabby Checkout activity was closed
-            TabbyResult.Result.EXPIRED ->     // Tabby Session is expired, you need to call
-                                              //    TabbyFactory.tabby.createSession(...) again
+            TabbyResult.Result.AUTHORIZED ->  { } // Purchase is authorized
+            TabbyResult.Result.REJECTED ->    { } // Purchase is rejected
+            TabbyResult.Result.CLOSED ->      { } // Tabby Checkout activity was closed
+            TabbyResult.Result.EXPIRED ->     { } // Tabby Session is expired, you need to call
+                                                  //    TabbyFactory.tabby.createSession(...) again
         }
     }
 }
