@@ -9,7 +9,7 @@
         android:allowBackup="false"
         >
     <activity
-        android:name=".internal.ui.CheckoutActivity"
+        android:name=".internal.ui.TabbyCheckoutActivity"
         android:exported="true"
         android:theme="@style/Theme.TabbySDK.NoActionBar"
         >

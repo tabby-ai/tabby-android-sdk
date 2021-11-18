@@ -8,7 +8,7 @@ import ai.tabby.android.data.TabbySession
 import ai.tabby.android.internal.logger.TabbyLogger
 import ai.tabby.android.internal.network.CheckoutPayloadDto
 import ai.tabby.android.internal.network.TabbyService
-import ai.tabby.android.internal.ui.CheckoutActivity
+import ai.tabby.android.internal.ui.TabbyCheckoutActivity
 import android.content.Context
 import android.content.Intent
 import kotlinx.coroutines.CoroutineDispatcher
@@ -54,8 +54,8 @@ internal class TabbyImpl @Inject constructor(
     override fun createCheckoutIntent(
         product: Product
     ): Intent =
-        Intent(context, CheckoutActivity::class.java).apply {
-            putExtra(CheckoutActivity.EXTRA_WEB_URL, product.webUrl)
+        Intent(context, TabbyCheckoutActivity::class.java).apply {
+            putExtra(TabbyCheckoutActivity.EXTRA_WEB_URL, product.webUrl)
         }
 
 }

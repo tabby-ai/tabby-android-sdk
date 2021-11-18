@@ -12,7 +12,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 
-internal class CheckoutActivity : ComponentActivity() {
+internal class TabbyCheckoutActivity : ComponentActivity() {
 
     companion object {
         const val EXTRA_WEB_URL = "extra.webUrl"

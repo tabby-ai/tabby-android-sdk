@@ -2,8 +2,10 @@ package ai.tabby.testapp.ui
 
 import ai.tabby.android.data.Product
 import ai.tabby.android.data.ProductType
+import ai.tabby.android.data.TabbyPayment
 import ai.tabby.android.data.TabbySession
-import ai.tabby.testapp.MainViewModel
+import ai.tabby.testapp.CheckoutViewModel
+import ai.tabby.testapp.createSuccessfulPayment
 import ai.tabby.testapp.ui.theme.TabbyAppTheme
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
@@ -21,7 +23,8 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ProductScreen(
-    viewModel: MainViewModel,
+    viewModel: CheckoutViewModel,
+    tabbyPayment: TabbyPayment,
     onProductSelected: (Product) -> Unit
 ) {
     val state = viewModel.screenStateFlow.collectAsState()
@@ -32,6 +35,8 @@ fun ProductScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                CartWidget(tabbyPayment = tabbyPayment)
+                Spacer(modifier = Modifier.height(18.dp))
                 state.value.session?.availableProducts?.forEach {
                     ProductButton(product = it) {
                         onProductSelected(it)
@@ -66,10 +71,13 @@ fun ProductButton(product: Product, onClick: () -> Unit) {
 )
 @Composable
 fun ProductPreview() {
-    ProductScreen(viewModel = MainViewModel().putDemoData()) {}
+    ProductScreen(
+        viewModel = CheckoutViewModel().putDemoData(),
+        tabbyPayment = createSuccessfulPayment())
+    {}
 }
 
-fun MainViewModel.putDemoData(): MainViewModel {
+private fun CheckoutViewModel.putDemoData(): CheckoutViewModel {
     onSessionSucceeded(
         TabbySession(
             id = "xxxx",

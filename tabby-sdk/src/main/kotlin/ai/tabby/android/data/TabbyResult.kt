@@ -1,10 +1,8 @@
 package ai.tabby.android.data
 
-import ai.tabby.android.internal.ui.CheckoutActivity
+import ai.tabby.android.internal.ui.TabbyCheckoutActivity
 import android.content.Intent
 import android.os.Parcelable
-import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import kotlinx.parcelize.Parcelize
@@ -84,4 +82,4 @@ val ActivityResult.tabbyResult: TabbyResult? get() = data?.tabbyResult
  * An extension that allows to get the [TabbyResult] from [Intent]
  */
 val Intent.tabbyResult: TabbyResult? get() =
-    getParcelableExtra(CheckoutActivity.EXTRA_TABBY_RESULT)
+    getParcelableExtra(TabbyCheckoutActivity.EXTRA_TABBY_RESULT)

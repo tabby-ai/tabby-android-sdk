@@ -1,7 +1,7 @@
 package ai.tabby.testapp.ui
 
 import ai.tabby.android.data.TabbyResult
-import ai.tabby.testapp.MainViewModel
+import ai.tabby.testapp.CheckoutViewModel
 import ai.tabby.testapp.ScreenState
 import ai.tabby.testapp.ui.theme.TabbyAppTheme
 import androidx.compose.foundation.layout.*
@@ -19,7 +19,8 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun CheckoutResultScreen(
-    viewModel: MainViewModel,
+    viewModel: CheckoutViewModel,
+    onDone: () -> Unit
 ) {
     val state = viewModel.screenStateFlow.collectAsState()
     TabbyAppTheme {
@@ -31,9 +32,7 @@ fun CheckoutResultScreen(
             ) {
                 ResultStatusText(state = state)
                 Spacer(modifier = Modifier.height(12.dp))
-                RestartButton {
-                    viewModel.resetToInitialState()
-                }
+                DoneButton(onClick = onDone)
             }
         }
     }
@@ -54,10 +53,10 @@ fun ResultStatusText(state: State<ScreenState>) {
 }
 
 @Composable
-fun RestartButton(onClick: () -> Unit) {
+fun DoneButton(onClick: () -> Unit) {
     Button(onClick = onClick) {
         Text(
-            text = "Restart",
+            text = "Done",
             style = MaterialTheme.typography.button,
             fontSize = 18.sp
         )

@@ -1,32 +1,58 @@
 package ai.tabby.testapp
 
 import ai.tabby.android.data.Product
+import ai.tabby.android.data.TabbyPayment
 import ai.tabby.android.data.tabbyResult
 import ai.tabby.testapp.ui.CheckoutResultScreen
-import ai.tabby.testapp.ui.InitialScreen
+import ai.tabby.testapp.ui.FailedScreen
 import ai.tabby.testapp.ui.ProductScreen
+import ai.tabby.testapp.ui.ProgressScreen
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 
-class MainActivity : ComponentActivity() {
+class CheckoutActivity : ComponentActivity() {
 
-    private val viewModel: MainViewModel by viewModels()
+    companion object {
+        const val ARG_TABBY_PAYMENT = "arg.tabbyPayment"
+    }
+
+    private val viewModel: CheckoutViewModel by viewModels()
+
+    private val tabbyPayment: TabbyPayment by lazy {
+        intent.getParcelableExtra<TabbyPayment>(ARG_TABBY_PAYMENT)
+            ?: throw IllegalArgumentException("Argument $ARG_TABBY_PAYMENT is missing")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Create tabby session
+        viewModel.createSession(tabbyPayment)
+
         setContent {
             val state = viewModel.screenStateFlow.collectAsState()
             when (state.value.state) {
-                ScreenState.State.INITIAL -> InitialScreen(viewModel = viewModel)
-                ScreenState.State.PRODUCT -> ProductScreen(viewModel = viewModel, onProductSelected = ::onProductSelected)
-                ScreenState.State.CHECKOUT_RESULT -> CheckoutResultScreen(viewModel = viewModel)
+                ScreenState.State.INITIAL -> {}
+                ScreenState.State.CREATING_SESSION -> ProgressScreen(
+                    tabbyPayment = tabbyPayment
+                )
+                ScreenState.State.SESSION_CREATED -> ProductScreen(
+                    viewModel = viewModel,
+                    tabbyPayment = tabbyPayment,
+                    onProductSelected = ::onProductSelected
+                )
+                ScreenState.State.SESSION_FAILED -> FailedScreen {
+                    // Retry create session
+                    viewModel.createSession(tabbyPayment = tabbyPayment)
+                }
+                ScreenState.State.CHECKOUT_RESULT -> CheckoutResultScreen(
+                    viewModel = viewModel
+                ) { finish() }
             }
         }
     }
@@ -49,17 +75,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-}
 
-
-@Preview(name = "Light mode",
-    showBackground = true
-)
-//@Preview(name = "Dark mode",
-//    uiMode = Configuration.UI_MODE_NIGHT_YES,
-//    showBackground = true
-//)
-@Composable
-fun DefaultPreview() {
-    InitialScreen(viewModel = MainViewModel())
 }
