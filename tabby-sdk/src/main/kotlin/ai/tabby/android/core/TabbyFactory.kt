@@ -1,7 +1,11 @@
 package ai.tabby.android.core
 
+import ai.tabby.android.internal.di.component.DaggerBaseComponent
+import ai.tabby.android.internal.di.component.DaggerTabbyComponent
 import ai.tabby.android.internal.di.component.TabbyComponent
+import ai.tabby.android.internal.di.extdep.TabbyComponentDependencies
 import android.content.Context
+import android.util.Log
 import java.util.concurrent.atomic.AtomicReference
 
 /**
@@ -20,9 +24,8 @@ object TabbyFactory {
      * @see setup
      */
     val tabby: Tabby
-        get() =
-        tabbyComponentRef.get()?.provideTabby() ?:
-            throw NullPointerException("Tabby factory is not initialized! Call initAndGet() first.")
+        get() = tabbyComponentRef.get()?.provideTabby()
+            ?: throw NullPointerException("Tabby factory is not initialized! Call initAndGet() first.")
 
     /**
      * Crates and returns [Tabby] instance. Also method stores instance in the [tabby] property.
@@ -42,17 +45,31 @@ object TabbyFactory {
     ): Tabby {
         val component = tabbyComponentRef.get()
         if (component != null) {
+            Log.e("Tabby", "setup is called more than once")
             return component.provideTabby()
         }
         synchronized(tabbyComponentRef) {
             if (tabbyComponentRef.get() == null) {
-                val newComponent = TabbyComponent.create(
+                val tabbyDependencies = TabbyComponentDependenciesImpl(
                     context = context,
-                    apiKey = apiKey,
+                    apiKey = apiKey
                 )
-                tabbyComponentRef.set(newComponent)
+                val baseComponent = DaggerBaseComponent.builder().build()
+                val newComponent = DaggerTabbyComponent.builder()
+                    .baseComponent(baseComponent)
+                    .tabbyComponentDependencies(tabbyDependencies)
+                    .build()
+                tabbyComponentRef.compareAndSet(null, newComponent)
             }
         }
         return tabby
     }
+}
+
+private class TabbyComponentDependenciesImpl(
+    private val context: Context,
+    private val apiKey: String
+) : TabbyComponentDependencies {
+    override fun provideContext(): Context = context
+    override fun provideApiKey(): String = apiKey
 }

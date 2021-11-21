@@ -7,28 +7,14 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-internal class BaseModule(
-    private val context: Context,
-    private val apiKey: String,
-) {
+internal class BaseModule {
 
     companion object {
         const val BASE_URL_KEY = "baseUrl"
-        const val API_KEY_KEY = "apiKey"
     }
-
-    @Provides
-    @Singleton
-    fun provideContext() = context
 
     @Provides
     @Named(BASE_URL_KEY)
     @Singleton
     fun provideBaseUrl() = "https://api.tabby.ai/"
-
-    @Provides
-    @Named(API_KEY_KEY)
-    @Singleton
-    fun provideApiKey() = apiKey
-
 }

@@ -2,6 +2,7 @@ package ai.tabby.android.internal.di.module
 
 import ai.tabby.android.core.Tabby
 import ai.tabby.android.internal.core.TabbyImpl
+import ai.tabby.android.internal.di.extdep.TabbyComponentDependencies
 import ai.tabby.android.internal.di.scope.TabbyScope
 import ai.tabby.android.internal.logger.TabbyLogger
 import ai.tabby.android.internal.network.TabbyService
@@ -18,7 +19,7 @@ internal class TabbyModule {
     @TabbyScope
     fun provideTabby(
         context: Context,
-        @Named(BaseModule.API_KEY_KEY) apiKey: String,
+        @Named(TabbyComponentDependencies.API_KEY_KEY) apiKey: String,
         tabbyService: TabbyService,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
         logger: TabbyLogger
@@ -30,5 +31,4 @@ internal class TabbyModule {
             ioDispatcher = ioDispatcher,
             logger = logger
         )
-
 }
