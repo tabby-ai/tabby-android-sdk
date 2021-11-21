@@ -22,7 +22,7 @@ import dagger.Component
     ]
 )
 @TabbyScope
-internal interface TabbyComponent {
+interface TabbyComponent {
 
     fun provideTabby(): Tabby
 

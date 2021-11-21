@@ -1,5 +1,6 @@
-package ai.tabby.android.core
+package ai.tabby.android.factory
 
+import ai.tabby.android.core.Tabby
 import ai.tabby.android.internal.di.component.DaggerBaseComponent
 import ai.tabby.android.internal.di.component.DaggerTabbyComponent
 import ai.tabby.android.internal.di.component.TabbyComponent

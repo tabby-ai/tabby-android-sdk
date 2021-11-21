@@ -1,6 +1,6 @@
 package ai.tabby.demoapp
 
-import ai.tabby.android.core.TabbyFactory
+import ai.tabby.android.factory.TabbyFactory
 import ai.tabby.android.data.*
 import android.content.Intent
 import androidx.lifecycle.ViewModel

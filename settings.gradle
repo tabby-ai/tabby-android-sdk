@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 rootProject.name = "Tabby SDK"
 include ':app'
 include ':tabby-sdk'
+include ':tabby-sdk-factory'
