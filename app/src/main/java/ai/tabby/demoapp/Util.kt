@@ -1,4 +1,4 @@
-package ai.tabby.testapp
+package ai.tabby.demoapp
 
 import ai.tabby.android.data.*
 import java.math.BigDecimal

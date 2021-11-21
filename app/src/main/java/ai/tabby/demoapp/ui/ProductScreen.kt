@@ -1,12 +1,12 @@
-package ai.tabby.testapp.ui
+package ai.tabby.demoapp.ui
 
 import ai.tabby.android.data.Product
 import ai.tabby.android.data.ProductType
 import ai.tabby.android.data.TabbyPayment
 import ai.tabby.android.data.TabbySession
-import ai.tabby.testapp.CheckoutViewModel
-import ai.tabby.testapp.createSuccessfulPayment
-import ai.tabby.testapp.ui.theme.TabbyAppTheme
+import ai.tabby.demoapp.CheckoutViewModel
+import ai.tabby.demoapp.createSuccessfulPayment
+import ai.tabby.demoapp.ui.theme.TabbyAppTheme
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button

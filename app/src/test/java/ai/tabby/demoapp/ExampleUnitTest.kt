@@ -1,4 +1,4 @@
-package ai.tabby.testapp
+package ai.tabby.demoapp
 
 import org.junit.Test
 

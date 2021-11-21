@@ -1,8 +1,6 @@
-package ai.tabby.testapp.ui
+package ai.tabby.demoapp.ui
 
-import ai.tabby.android.data.TabbyPayment
-import ai.tabby.testapp.createSuccessfulPayment
-import ai.tabby.testapp.ui.theme.TabbyAppTheme
+import ai.tabby.demoapp.ui.theme.TabbyAppTheme
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -17,9 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CartScreen(
-    tabbyPayment: TabbyPayment,
-    onCheckout: () -> Unit
+fun FailedScreen(
+    onRetry: () -> Unit
 ) {
     TabbyAppTheme {
         // A surface container using the 'background' color from the theme
@@ -29,22 +26,21 @@ fun CartScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CartWidget(tabbyPayment = tabbyPayment)
+                Text(
+                    text = "Error: Can't create session",
+                    style = MaterialTheme.typography.button,
+                    fontSize = 18.sp
+                )
                 Spacer(modifier = Modifier.height(18.dp))
-                CheckoutButton(onCheckout)
+                Button(onClick = onRetry) {
+                    Text(
+                        text = "Retry",
+                        style = MaterialTheme.typography.button,
+                        fontSize = 18.sp
+                    )
+                }
             }
         }
-    }
-}
-
-@Composable
-fun CheckoutButton(onClick: () -> Unit) {
-    Button(onClick = onClick) {
-        Text(
-            text = "Checkout",
-            style = MaterialTheme.typography.button,
-            fontSize = 18.sp
-        )
     }
 }
 
@@ -57,6 +53,6 @@ fun CheckoutButton(onClick: () -> Unit) {
     showBackground = true
 )
 @Composable
-private fun CartPreview() {
-    CartScreen(createSuccessfulPayment()) {}
+private fun FailedPreview() {
+    FailedScreen() {}
 }

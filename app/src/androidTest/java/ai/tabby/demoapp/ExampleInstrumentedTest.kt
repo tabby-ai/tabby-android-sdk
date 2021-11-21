@@ -1,4 +1,4 @@
-package ai.tabby.testapp
+package ai.tabby.demoapp
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

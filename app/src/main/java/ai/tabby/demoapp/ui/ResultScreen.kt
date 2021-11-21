@@ -1,9 +1,9 @@
-package ai.tabby.testapp.ui
+package ai.tabby.demoapp.ui
 
 import ai.tabby.android.data.TabbyResult
-import ai.tabby.testapp.CheckoutViewModel
-import ai.tabby.testapp.ScreenState
-import ai.tabby.testapp.ui.theme.TabbyAppTheme
+import ai.tabby.demoapp.CheckoutViewModel
+import ai.tabby.demoapp.ScreenState
+import ai.tabby.demoapp.ui.theme.TabbyAppTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme

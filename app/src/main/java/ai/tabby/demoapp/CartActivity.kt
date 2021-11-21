@@ -1,6 +1,6 @@
-package ai.tabby.testapp
+package ai.tabby.demoapp
 
-import ai.tabby.testapp.ui.CartScreen
+import ai.tabby.demoapp.ui.CartScreen
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity

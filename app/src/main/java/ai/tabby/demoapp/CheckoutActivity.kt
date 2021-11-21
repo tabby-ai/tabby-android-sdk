@@ -1,12 +1,12 @@
-package ai.tabby.testapp
+package ai.tabby.demoapp
 
 import ai.tabby.android.data.Product
 import ai.tabby.android.data.TabbyPayment
 import ai.tabby.android.data.tabbyResult
-import ai.tabby.testapp.ui.CheckoutResultScreen
-import ai.tabby.testapp.ui.FailedScreen
-import ai.tabby.testapp.ui.ProductScreen
-import ai.tabby.testapp.ui.ProgressScreen
+import ai.tabby.demoapp.ui.CheckoutResultScreen
+import ai.tabby.demoapp.ui.FailedScreen
+import ai.tabby.demoapp.ui.ProductScreen
+import ai.tabby.demoapp.ui.ProgressScreen
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity

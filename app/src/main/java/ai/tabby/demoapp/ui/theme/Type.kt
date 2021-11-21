@@ -1,4 +1,4 @@
-package ai.tabby.testapp.ui.theme
+package ai.tabby.demoapp.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

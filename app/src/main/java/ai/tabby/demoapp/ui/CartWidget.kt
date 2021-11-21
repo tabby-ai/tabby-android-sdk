@@ -1,4 +1,4 @@
-package ai.tabby.testapp.ui
+package ai.tabby.demoapp.ui
 
 import ai.tabby.android.data.Order
 import ai.tabby.android.data.OrderItem

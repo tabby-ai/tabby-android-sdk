@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ai.tabby.testapp"
+    package="ai.tabby.demoapp"
     >
 
     <application
-        android:name=".App"
+        android:name="ai.tabby.demoapp.App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +13,7 @@
         android:theme="@style/Theme.TabbyApp"
         >
         <activity
-            android:name=".CartActivity"
+            android:name="ai.tabby.demoapp.CartActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.TabbyApp.NoActionBar"
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CheckoutActivity"
+            android:name="ai.tabby.demoapp.CheckoutActivity"
             android:theme="@style/Theme.TabbyApp.NoActionBar"
             >
         </activity>
