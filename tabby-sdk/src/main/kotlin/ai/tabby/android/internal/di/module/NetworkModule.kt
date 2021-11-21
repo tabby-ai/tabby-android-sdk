@@ -1,5 +1,6 @@
 package ai.tabby.android.internal.di.module
 
+import ai.tabby.android.internal.di.scope.TabbyScope
 import ai.tabby.android.internal.logger.TabbyLogger
 import ai.tabby.android.internal.network.TabbyService
 import dagger.Module
@@ -9,12 +10,12 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
-import javax.inject.Singleton
 
 @Module
 internal class NetworkModule {
 
     @Provides
+    @TabbyScope
     fun provideOkHttpClient(
         logger: TabbyLogger
     ): OkHttpClient {
@@ -29,10 +30,11 @@ internal class NetworkModule {
     }
 
     @Provides
+    @TabbyScope
     fun provideTabbyService(
         @Named(BaseModule.BASE_URL_KEY) baseUrl: String,
         okHttpClient: OkHttpClient
-    ): TabbyService = // todo make sure there is only one instance is created
+    ): TabbyService =
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)

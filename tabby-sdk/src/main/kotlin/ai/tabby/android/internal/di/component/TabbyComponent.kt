@@ -4,14 +4,10 @@ import ai.tabby.android.core.Tabby
 import ai.tabby.android.internal.di.module.DispatcherModule
 import ai.tabby.android.internal.di.module.NetworkModule
 import ai.tabby.android.internal.di.module.TabbyModule
+import ai.tabby.android.internal.di.scope.TabbyScope
 import ai.tabby.android.internal.logger.TabbyLogger
 import android.content.Context
 import dagger.Component
-import javax.inject.Scope
-
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-internal annotation class TabbyScope
 
 @Component(
     modules = [

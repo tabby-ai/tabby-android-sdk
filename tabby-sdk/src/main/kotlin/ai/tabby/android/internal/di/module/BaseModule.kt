@@ -18,14 +18,17 @@ internal class BaseModule(
     }
 
     @Provides
+    @Singleton
     fun provideContext() = context
 
     @Provides
     @Named(BASE_URL_KEY)
+    @Singleton
     fun provideBaseUrl() = "https://api.tabby.ai/"
 
     @Provides
     @Named(API_KEY_KEY)
+    @Singleton
     fun provideApiKey() = apiKey
 
 }

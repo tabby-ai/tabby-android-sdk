@@ -2,6 +2,7 @@ package ai.tabby.android.internal.di.module
 
 import ai.tabby.android.core.Tabby
 import ai.tabby.android.internal.core.TabbyImpl
+import ai.tabby.android.internal.di.scope.TabbyScope
 import ai.tabby.android.internal.logger.TabbyLogger
 import ai.tabby.android.internal.network.TabbyService
 import android.content.Context
@@ -14,6 +15,7 @@ import javax.inject.Named
 internal class TabbyModule {
 
     @Provides
+    @TabbyScope
     fun provideTabby(
         context: Context,
         @Named(BaseModule.API_KEY_KEY) apiKey: String,
