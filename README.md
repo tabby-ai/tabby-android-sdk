@@ -2,7 +2,23 @@
 
 Tabby SDK for Android makes it easier to integrate Tabby payment platform to your app.
 
-## Initialization
+## Requirements
+
+Android 5.0 (API level 21) and above
+
+## Integration
+
+Add the Tabby Android to your app's `build.gradle`:
+
+```groovy
+dependencies {
+    implementation 'ai.tabby.android:<***TBD>:1.0.0'
+}
+```
+
+## Getting Started
+
+### Initialization
 
 Tabby SDK requires one-time initialization which can be done on app's start:
 
@@ -17,9 +33,9 @@ class App : Application() {
 
 Once initialized, `Tabby` instance always available via `TabbyFactory.tabby` property.
 
-## Create Tabby Session
+### Creating Tabby Session
 
-### Prepare Payment Payload
+#### Preparing Payment Payload
 
 The following code snippet shows example of simple always-successful payment:
 
@@ -55,7 +71,7 @@ val tabbyPayment = TabbyPayment(
 )
 ```
 
-### Create Session
+#### Creating Session
 
 Usually Tabby session is created when your checkout activity is created.
 
@@ -86,7 +102,7 @@ class CheckoutActivity : ComponentActivity() {
 
 `TabbySession` contains a list of available Tabby Products, which can be accessed via `tabbySession.availableProducts`. Your app should display these products on checkout activity. When user selects one of the products, you app starts Tabby Checkout.
 
-## Start Tabby Checkout
+### Starting Tabby Checkout
 
 To start Tabby Checkout you need to create intent and launch Tabby Checkout.
 
@@ -100,7 +116,7 @@ class CheckoutActivity : ComponentActivity() {
 }
 ```
 
-## Receive Checkout Result
+### Receiving Checkout Result
 
 When your app launches Tabby Checkout, a web view is shown allowing user to confirm their purchase. Once user is authorized (or rejected), result is returned to your checkout activity contract.
 
@@ -131,4 +147,27 @@ class CheckoutActivity : ComponentActivity() {
         }
     }
 }
+```
+
+## UI Components
+
+***TBD
+
+License
+-------
+
+```
+Copyright 2021 Tabby (***TBD)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```
