@@ -55,11 +55,7 @@ object TabbyFactory {
                     context = context,
                     apiKey = apiKey
                 )
-                val baseComponent = DaggerBaseComponent.builder().build()
-                val newComponent = DaggerTabbyComponent.builder()
-                    .baseComponent(baseComponent)
-                    .tabbyComponentDependencies(tabbyDependencies)
-                    .build()
+                val newComponent = TabbyComponent.create(dependencies = tabbyDependencies)
                 tabbyComponentRef.compareAndSet(null, newComponent)
             }
         }

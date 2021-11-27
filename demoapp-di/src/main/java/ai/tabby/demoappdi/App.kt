@@ -1,7 +1,6 @@
 package ai.tabby.demoappdi
 
-import ai.tabby.android.di.DaggerTabbyComponent
-import ai.tabby.android.internal.di.component.DaggerBaseComponent
+import ai.tabby.android.di.TabbyComponent
 import android.app.Application
 
 class App : Application() {
@@ -11,15 +10,12 @@ class App : Application() {
     init {
         // Tabby setup
         val tabbyDependencies = TabbyComponentDependenciesImpl(
-            context = this,
+            context = this, // application context
             apiKey = "pk_test_1ff3d031-6346-4456-aa62-01e302499577"
         )
 
-        val baseComponent = DaggerBaseComponent.builder().build()
-        val tabbyComponent = DaggerTabbyComponent.builder()
-            .baseComponent(baseComponent)
-            .tabbyComponentDependencies(tabbyDependencies)
-            .build()
+        // Create tabby component and link it to the injectable app's component
+        val tabbyComponent = TabbyComponent.create(dependencies = tabbyDependencies)
         myTabbyComponent = DaggerMyTabbyComponent.builder()
             .tabbyComponent(tabbyComponent)
             .build()

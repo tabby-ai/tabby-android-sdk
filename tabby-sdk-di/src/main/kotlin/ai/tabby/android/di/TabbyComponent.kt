@@ -2,10 +2,10 @@ package ai.tabby.android.di
 
 import ai.tabby.android.core.Tabby
 import ai.tabby.android.internal.di.component.BaseComponent
+import ai.tabby.android.internal.di.component.DaggerBaseComponent
 import ai.tabby.android.internal.di.module.DispatcherModule
 import ai.tabby.android.internal.di.module.NetworkModule
 import ai.tabby.android.internal.di.module.TabbyModule
-import ai.tabby.android.internal.logger.TabbyLogger
 import dagger.Component
 
 @Component(
@@ -24,5 +24,14 @@ interface TabbyComponent {
 
     fun provideTabby(): Tabby
 
-    fun provideLogger(): TabbyLogger
+    companion object {
+
+        fun create(
+            dependencies: TabbyComponentDependencies
+        ): TabbyComponent =
+            DaggerTabbyComponent.builder()
+                .baseComponent(DaggerBaseComponent.create())
+                .tabbyComponentDependencies(dependencies)
+                .build()
+    }
 }
