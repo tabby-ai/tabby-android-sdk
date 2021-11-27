@@ -38,5 +38,5 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
 
     // Tabby
-    api project(path: ':tabby-sdk')
+    api project(path: ':tabby-sdk-di')
 }
