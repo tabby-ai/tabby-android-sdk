@@ -42,7 +42,7 @@ class App : Application() {
 
 Once initialized, `Tabby` instance always available via `TabbyFactory.tabby` property.
 
-::TODO add reference to source file
+See [source code](demoapp/src/main/java/ai/tabby/demoapp)
 
 ### Initialization of Dagger Components
 
@@ -105,7 +105,7 @@ class App : Application() {
 
 Once `MyTabbyComponent` is created you can inject Tabby instance to the other parts of your app's code. 
 
-::TODO add reference to source file
+See [source code](demoapp-di/src/main/java/ai/tabby/demoappdi)
 
 ### Creating Tabby Session
 
