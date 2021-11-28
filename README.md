@@ -1,24 +1,33 @@
 # Tabby Android SDK
 
-Tabby SDK for Android makes it easier to integrate Tabby payment platform to your app.
+Tabby SDK for Android makes it easier to integrate you app with Tabby payment platform.
 
 ## Requirements
 
-Android 5.0 (API level 21) and above
+Android 5.0 (API level 21) and above.
 
 ## Integration
 
-Add the Tabby Android to your app's `build.gradle`:
+Add Tabby Android SDK dependency to your app's `build.gradle`:
 
 ```groovy
 dependencies {
-    implementation 'ai.tabby.android:<***TBD>:1.0.0'
+    implementation 'ai.tabby:<***TODO>:1.0.0'
 }
 ```
 
 ## Getting Started
 
-### Initialization
+Before using functions of Tabby SDK, it has to be initialized. The ways of initialization differ depending on whether you app is using Dagger or not. If you don't use Dagger, please read [Initialization via Factory](#initialization-via-factory) chapter. If you DO use Dagger refer to [Initialization of Dagger Components](#initialization-of-dagger-components).
+
+---
+**NOTE**
+
+You should use only one of these initialization approaches in the single app.
+
+---
+
+### Initialization via Factory
 
 Tabby SDK requires one-time initialization which can be done on app's start:
 
@@ -33,7 +42,79 @@ class App : Application() {
 
 Once initialized, `Tabby` instance always available via `TabbyFactory.tabby` property.
 
+::TODO add reference to source file
+
+### Initialization of Dagger Components
+
+Declare you own component to be able to inject Tabby instance to your code.
+
+```kotlin
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class AppScope
+
+@Component(
+    dependencies = [
+        TabbyComponent::class // your component must depend on TabbyComponent
+    ]
+)
+@AppScope
+interface MyTabbyComponent {
+
+    fun provideTabby(): Tabby
+    
+    // Add methods to inject Tabby instance to your code
+    fun inject(activity: CheckoutActivity)
+}
+```
+
+Implement `TabbyComponentDependencies` to provide `context` and your `API_KEY` to the `TabbyComponent`.
+
+```kotlin
+class TabbyComponentDependenciesImpl(
+    private val context: Context,
+    private val apiKey: String
+) : TabbyComponentDependencies {
+    override fun provideContext(): Context = context
+    override fun provideApiKey(): String = apiKey
+}
+```
+
+Create your component and keep its reference in the `Application` instance.
+
+```kotlin
+class App : Application() {
+
+    val myTabbyComponent: MyTabbyComponent
+
+    init {
+        // Tabby setup
+        val tabbyDependencies = TabbyComponentDependenciesImpl(
+            context = this,             // application context
+            apiKey = "__API_KEY_HERE__" // you api key
+        )
+
+        // Create tabby component and link it to the injectable component
+        val tabbyComponent = TabbyComponent.create(dependencies = tabbyDependencies)
+        myTabbyComponent = DaggerMyTabbyComponent.builder()
+            .tabbyComponent(tabbyComponent)
+            .build()
+    }
+}
+```
+
+Once `MyTabbyComponent` is created you can inject Tabby instance to the other parts of your app's code. 
+
+::TODO add reference to source file
+
 ### Creating Tabby Session
+
+---
+**NOTE**
+
+To reduce the size of code examples, further snippets assume that Tabby instance was initialized using [Factory](#initialization-via-factory) approach. You'll see that Tabby instance is accessed via `TabbyFactory.tabby`. If you use Dagger, you can inject Tabby instance to your code using `MyTabbyComponent` described above.
+
+---
 
 #### Preparing Payment Payload
 
@@ -151,13 +232,13 @@ class CheckoutActivity : ComponentActivity() {
 
 ## UI Components
 
-***TBD
+***TODO
 
 License
 -------
 
 ```
-Copyright 2021 Tabby (***TBD)
+Copyright 2021 Tabby (***TODO)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
