@@ -11,10 +11,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/demoapp" />
             <option value="$PROJECT_DIR$/demoapp-di" />
-            <option value="$PROJECT_DIR$/demoapp-factory" />
-            <option value="$PROJECT_DIR$/tabby-sdk-di" />
-            <option value="$PROJECT_DIR$/tabby-sdk-factory" />
+            <option value="$PROJECT_DIR$/tabby-sdk" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

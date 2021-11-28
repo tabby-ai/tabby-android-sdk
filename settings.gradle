@@ -6,7 +6,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Tabby SDK"
+include ':demoapp'
 include ':demoapp-di'
-include ':demoapp-factory'
-include ':tabby-sdk-di'
-include ':tabby-sdk-factory'
+include ':tabby-sdk'

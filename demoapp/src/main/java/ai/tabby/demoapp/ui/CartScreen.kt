@@ -1,9 +1,9 @@
-package ai.tabby.demoappdi.ui
+package ai.tabby.demoapp.ui
 
 import ai.tabby.android.data.TabbyPayment
-import ai.tabby.demoappdi.R
-import ai.tabby.demoappdi.createSuccessfulPayment
-import ai.tabby.demoappdi.ui.theme.TabbyAppTheme
+import ai.tabby.demoapp.R
+import ai.tabby.demoapp.createSuccessfulPayment
+import ai.tabby.demoapp.ui.theme.TabbyAppTheme
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
