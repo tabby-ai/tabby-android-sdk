@@ -65,6 +65,6 @@ private class TabbyComponentDependenciesImpl(
     private val context: Context,
     private val apiKey: String
 ) : TabbyComponentDependencies {
-    override fun provideContext(): Context = context
-    override fun provideApiKey(): String = apiKey
+    override fun getContext(): Context = context
+    override fun getApiKey(): String = apiKey
 }

@@ -9,8 +9,8 @@ interface TabbyComponentDependencies {
         const val API_KEY_KEY = "apiKey"
     }
 
-    fun provideContext(): Context
+    fun getContext(): Context
 
     @Named(API_KEY_KEY)
-    fun provideApiKey(): String
+    fun getApiKey(): String
 }
