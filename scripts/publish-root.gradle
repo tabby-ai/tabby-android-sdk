@@ -1,0 +1,32 @@
+// Guide is here:
+//   https://proandroiddev.com/publishing-android-libraries-to-mavencentral-in-2021-8ac9975c3e52
+
+// Create variables with empty default values
+ext["signing.keyId"] = ''
+ext["signing.password"] = ''
+ext["signing.key"] = ''
+ext["ossrhUsername"] = ''
+ext["ossrhPassword"] = ''
+ext["sonatypeStagingProfileId"] = ''
+
+// Use global gradle.properties variables
+ext["ossrhUsername"] = "${ossrh_username}"
+ext["ossrhPassword"] = "${ossrh_password}"
+ext["signing.keyId"] = "${signing_key_id}"
+ext["signing.password"] = "${signing_password}"
+ext["signing.key"] = "${signing_key}"
+ext["sonatypeStagingProfileId"] = "${staging_profile}"
+
+// Set up Sonatype repository
+nexusPublishing {
+    repositories {
+        sonatype {
+            stagingProfileId = sonatypeStagingProfileId
+            username = ossrhUsername
+            password = ossrhPassword
+
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        }
+    }
+}
