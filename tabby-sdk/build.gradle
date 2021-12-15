@@ -74,7 +74,7 @@ dependencies {
 ext {
     PUBLISH_GROUP_ID = 'io.tabby'
     PUBLISH_ARTIFACT_ID = 'tabby-android'
-    PUBLISH_VERSION = '1.0.0'
+    PUBLISH_VERSION = "$tabby_sdk_version"
 }
 
 apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"

@@ -72,4 +72,5 @@ dependencies {
 
     // Tabby
     implementation project(path: ':tabby-sdk')
+//    implementation "ai.tabby:tabby-android:$tabby_sdk_version"
 }

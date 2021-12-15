@@ -25,6 +25,8 @@ buildscript {
         espresso_version        = '3.4.0'
 
         nexus_publish_plugin    = '1.1.0'
+
+        tabby_sdk_version   = '1.0.0'
     }
     repositories {
         google()
