@@ -12,7 +12,7 @@ Add Tabby Android SDK dependency to your app's `build.gradle`:
 
 ```groovy
 dependencies {
-    implementation 'ai.tabby:tabby-android:1.0.0'
+    implementation 'ai.tabby:tabby-android:1.0.1'
 }
 ```
 
@@ -21,6 +21,7 @@ dependencies {
 Before using functions of Tabby SDK, it has to be initialized. The ways of initialization differ depending on whether you app is using Dagger or not. If you don't use Dagger, please read [Initialization via Factory](#initialization-via-factory) chapter. If you DO use Dagger refer to [Initialization of Dagger Components](#initialization-of-dagger-components).
 
 ---
+
 **NOTE**
 
 You should use only one of these initialization approaches in the single app.
@@ -62,7 +63,7 @@ annotation class AppScope
 interface MyTabbyComponent {
 
     fun provideTabby(): Tabby
-    
+
     // Add methods to inject Tabby instance to your code
     fun inject(activity: CheckoutActivity)
 }
@@ -103,13 +104,14 @@ class App : Application() {
 }
 ```
 
-Once `MyTabbyComponent` is created you can inject Tabby instance to the other parts of your app's code. 
+Once `MyTabbyComponent` is created you can inject Tabby instance to the other parts of your app's code.
 
 See [source code](demoapp-di/src/main/java/ai/tabby/demoappdi)
 
 ### Creating Tabby Session
 
 ---
+
 **NOTE**
 
 To reduce the size of code examples, further snippets assume that Tabby instance was initialized using [Factory](#initialization-via-factory) approach. You'll see that Tabby instance is accessed via `TabbyFactory.tabby`. If you use Dagger, you can inject Tabby instance to your code using `MyTabbyComponent` described above.
@@ -157,7 +159,7 @@ val tabbyPayment = TabbyPayment(
 Usually Tabby session is created when your checkout activity is created.
 
 ```kotlin
-class CheckoutActivity : ComponentActivity() { 
+class CheckoutActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -169,7 +171,7 @@ class CheckoutActivity : ComponentActivity() {
                 lang = Lang.EN,
                 payment = tabbyPayment
             )
-            
+
             // Update UI with Tabby products
             withContext(Dispatchers.Main) {
                 for (product in session.availableProducts) {
@@ -217,7 +219,7 @@ class CheckoutActivity : ComponentActivity() {
                 }
             }
         }
-        
+
     private fun onCheckoutResult(tabbyResult: TabbyResult) {
         when (tabbyResult.result) {
             TabbyResult.Result.AUTHORIZED ->  { } // Purchase is authorized
@@ -232,13 +234,12 @@ class CheckoutActivity : ComponentActivity() {
 
 ## UI Components
 
-***TODO
+**TODO**
 
-License
--------
+## License
 
 ```
-Copyright 2021 Tabby LLC
+Copyright 2022 Tabby LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
