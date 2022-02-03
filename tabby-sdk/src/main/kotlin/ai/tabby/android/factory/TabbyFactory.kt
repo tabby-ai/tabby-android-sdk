@@ -24,7 +24,7 @@ object TabbyFactory {
      */
     val tabby: Tabby
         get() = tabbyComponentRef.get()?.provideTabby()
-            ?: throw NullPointerException("Tabby factory is not initialized! Call initAndGet() first.")
+            ?: throw NullPointerException("Tabby factory is not initialized! Call setup() first.")
 
     /**
      * Crates and returns [Tabby] instance. Also method stores instance in the [tabby] property.
