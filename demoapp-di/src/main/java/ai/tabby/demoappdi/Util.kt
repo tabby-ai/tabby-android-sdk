@@ -3,7 +3,6 @@ package ai.tabby.demoappdi
 import ai.tabby.android.data.*
 import java.math.BigDecimal
 
-// pin: 8888
 fun createSuccessfulPayment() = TabbyPayment(
     amount = BigDecimal(340),
     currency = Currency.AED,
