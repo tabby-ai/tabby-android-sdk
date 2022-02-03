@@ -3,7 +3,6 @@ package ai.tabby.demoapp
 import ai.tabby.android.data.*
 import java.math.BigDecimal
 
-// pin: 8888
 fun createSuccessfulPayment() = TabbyPayment(
     amount = BigDecimal(340),
     currency = Currency.AED,
@@ -41,7 +40,7 @@ fun createRejectedPayment() = TabbyPayment(
     buyer = Buyer(
         email = "rejected@tabby.ai ",   // REJECTED
         phone = "500000001",
-        name = "Daniil Barkalov"
+        name = "Yazan Khalid"
     ),
     order = Order(
         refId = "#xxxx-xxxxxx-xxxx",

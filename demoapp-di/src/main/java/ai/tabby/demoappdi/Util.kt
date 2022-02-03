@@ -41,7 +41,7 @@ fun createRejectedPayment() = TabbyPayment(
     buyer = Buyer(
         email = "rejected@tabby.ai ",   // REJECTED
         phone = "500000001",
-        name = "Daniil Barkalov"
+        name = "Yazan Khalid"
     ),
     order = Order(
         refId = "#xxxx-xxxxxx-xxxx",

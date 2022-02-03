@@ -11,7 +11,7 @@ class App : Application() {
         // Tabby setup
         val tabbyDependencies = TabbyComponentDependenciesImpl(
             context = this, // application context
-            apiKey = "pk_test_1ff3d031-6346-4456-aa62-01e302499577"
+            apiKey = "_YOUR_API_KEY_",
         )
 
         // Create tabby component and link it to the injectable app's component
