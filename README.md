@@ -12,7 +12,7 @@ Add Tabby Android SDK dependency to your app's `build.gradle`:
 
 ```groovy
 dependencies {
-    implementation 'ai.tabby:tabby-android:1.0.1'
+    implementation 'ai.tabby:tabby-android:1.1.0'
 }
 ```
 
