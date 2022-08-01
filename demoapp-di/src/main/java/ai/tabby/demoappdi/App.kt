@@ -1,6 +1,7 @@
 package ai.tabby.demoappdi
 
 import ai.tabby.android.di.TabbyComponent
+import ai.tabby.android.internal.network.TabbyEnvironment
 import android.app.Application
 
 class App : Application() {
@@ -12,6 +13,7 @@ class App : Application() {
         val tabbyDependencies = TabbyComponentDependenciesImpl(
             context = this, // application context
             apiKey = "_YOUR_API_KEY_",
+            environment = TabbyEnvironment.PROD
         )
 
         // Create tabby component and link it to the injectable app's component
