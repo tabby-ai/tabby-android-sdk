@@ -1,11 +1,12 @@
 package ai.tabby.demoappdi.ui
 
-import ai.tabby.android.core.Tabby
-import ai.tabby.android.data.*
-import ai.tabby.demoappdi.createSuccessfulPayment
+import ai.tabby.android.data.Product
+import ai.tabby.android.data.ProductType
+import ai.tabby.android.data.TabbyPayment
+import ai.tabby.android.data.TabbySession
 import ai.tabby.demoappdi.CheckoutViewModel
+import ai.tabby.demoappdi.createSuccessfulPayment
 import ai.tabby.demoappdi.ui.theme.TabbyAppTheme
-import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -53,7 +54,7 @@ fun ProductButton(product: Product, onClick: () -> Unit) {
         Text(
             text = when (product.type) {
                 ProductType.INSTALLMENTS -> "installments"
-                ProductType.PAY_LATER -> "pay later"
+                ProductType.CREDIT_CARD_INSTALLMENTS -> "creditCardInstallments"
             },
             style = MaterialTheme.typography.button,
             fontSize = 18.sp
@@ -91,8 +92,8 @@ private val dummySession =
                 "https://installments.example.com"
             ),
             Product(
-                ProductType.PAY_LATER,
-                "https://paylater.example.com"
+                ProductType.CREDIT_CARD_INSTALLMENTS,
+                "https://installments.example.com"
             )
         )
     )

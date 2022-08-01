@@ -4,7 +4,7 @@ Tabby SDK for Android makes it easier to integrate you app with Tabby payment pl
 
 ## Requirements
 
-Android 5.0 (API level 21) and above.
+Android 7.0 (API level 24) and above.
 
 ## Integration
 
@@ -12,7 +12,7 @@ Add Tabby Android SDK dependency to your app's `build.gradle`:
 
 ```groovy
 dependencies {
-    implementation 'ai.tabby:tabby-android:1.0.1'
+    implementation 'ai.tabby:tabby-android:1.1.1'
 }
 ```
 

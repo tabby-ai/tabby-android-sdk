@@ -54,7 +54,7 @@ fun ProductButton(product: Product, onClick: () -> Unit) {
         Text(
             text = when (product.type) {
                 ProductType.INSTALLMENTS -> "installments"
-                ProductType.PAY_LATER -> "pay later"
+                ProductType.CREDIT_CARD_INSTALLMENTS -> "credit_card_installments"
             },
             style = MaterialTheme.typography.button,
             fontSize = 18.sp
@@ -78,21 +78,22 @@ fun ProductPreview() {
 }
 
 private fun CheckoutViewModel.putDemoData(): CheckoutViewModel {
-    onSessionSucceeded(
-        TabbySession(
-            id = "xxxx",
-            paymentId = "xxxx",
-            availableProducts = listOf(
-                Product(
-                    ProductType.INSTALLMENTS,
-                    "https://installments.example.com"
-                ),
-                Product(
-                    ProductType.PAY_LATER,
-                    "https://paylater.example.com"
-                )
+    onSessionSucceeded(dummySession)
+    return this
+}
+
+private val dummySession =
+    TabbySession(
+        id = "xxxx",
+        paymentId = "xxxx",
+        availableProducts = listOf(
+            Product(
+                ProductType.INSTALLMENTS,
+                "https://installments.example.com"
+            ),
+            Product(
+                ProductType.CREDIT_CARD_INSTALLMENTS,
+                "https://installments.example.com"
             )
         )
     )
-    return this
-}

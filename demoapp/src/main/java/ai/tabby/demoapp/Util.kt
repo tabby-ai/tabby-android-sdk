@@ -20,7 +20,7 @@ fun createSuccessfulPayment() = TabbyPayment(
                 title = "Pink jersey",
                 description = "Jersey",
                 productUrl = "https://tabby.store/p/SKU123",
-                unitPrice = BigDecimal(300),
+                unitPrice = BigDecimal(300.00),
                 quantity = 1
             )
         ),
@@ -29,8 +29,15 @@ fun createSuccessfulPayment() = TabbyPayment(
     ),
     shippingAddress = ShippingAddress(
         address = "Sample Address #2",
-        city = "Dubai"
-    )
+        city = "Dubai",
+        zip = "11111"
+    ),
+    buyerHistory = BuyerHistory(
+        registeredSince = "2019-08-24T14:15:22Z",
+        loyaltyLevel = 0,
+    ),
+    meta = mapOf(),
+    orderHistory = listOf()
 )
 
 fun createRejectedPayment() = TabbyPayment(
@@ -59,6 +66,17 @@ fun createRejectedPayment() = TabbyPayment(
     ),
     shippingAddress = ShippingAddress(
         address = "Sample Address #2",
-        city = "Dubai"
-    )
+        city = "Dubai",
+        zip = "11111"
+    ),
+    attachment = Attachment(
+        body = "",
+        contentType = ""
+    ),
+    buyerHistory = BuyerHistory(
+        registeredSince = "2019-08-24T14:15:22Z",
+        loyaltyLevel = 0,
+    ),
+    meta = mapOf(),
+    orderHistory = listOf()
 )
