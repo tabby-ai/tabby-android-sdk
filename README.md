@@ -16,6 +16,14 @@ dependencies {
 }
 ```
 
+## Please make sure you've added in your `AndroidManifest.xml`
+
+```
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+```
+
 ## Getting Started
 
 Before using functions of Tabby SDK, it has to be initialized. The ways of initialization differ depending on whether you app is using Dagger or not. If you don't use Dagger, please read [Initialization via Factory](#initialization-via-factory) chapter. If you DO use Dagger refer to [Initialization of Dagger Components](#initialization-of-dagger-components).
