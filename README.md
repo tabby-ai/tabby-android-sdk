@@ -4,7 +4,7 @@ Tabby SDK for Android makes it easier to integrate you app with Tabby payment pl
 
 ## Requirements
 
-Android 7.0 (API level 24) and above.
+Android 5.0 (API level 21) and above.
 
 ## Integration
 
@@ -14,14 +14,6 @@ Add Tabby Android SDK dependency to your app's `build.gradle`:
 dependencies {
     implementation 'ai.tabby:tabby-android:1.1.7'
 }
-```
-
-## Please make sure you've added in your `AndroidManifest.xml`
-
-```
-<uses-permission android:name="android.permission.CAMERA" />
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 ```
 
 ## Getting Started
@@ -44,7 +36,7 @@ Tabby SDK requires one-time initialization which can be done on app's start:
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        TabbyFactory.setup(this, "__API_KEY_HERE__")
+        TabbyFactory.setup(this, "__API_KEY_HERE__", TabbyEnvironment.Prod)
     }
 }
 ```
@@ -82,10 +74,12 @@ Implement `TabbyComponentDependencies` to provide `context` and your `API_KEY` t
 ```kotlin
 class TabbyComponentDependenciesImpl(
     private val context: Context,
-    private val apiKey: String
+    private val apiKey: String,
+    private val environment: TabbyEnvironment
 ) : TabbyComponentDependencies {
-    override fun provideContext(): Context = context
-    override fun provideApiKey(): String = apiKey
+    override fun getContext(): Context = context
+    override fun getApiKey(): String = apiKey
+    override fun getEnv(): TabbyEnvironment = environment
 }
 ```
 
@@ -100,7 +94,8 @@ class App : Application() {
         // Tabby setup
         val tabbyDependencies = TabbyComponentDependenciesImpl(
             context = this,             // application context
-            apiKey = "__API_KEY_HERE__" // you api key
+            apiKey = "__API_KEY_HERE__", // you api key
+            environment = TabbyEnvironment.Prod 
         )
 
         // Create tabby component and link it to the injectable component
@@ -242,59 +237,7 @@ class CheckoutActivity : ComponentActivity() {
 
 ## UI Components
 
-### Product Page Snippet
-
-```kotlin
-import ai.tabby.android.data.TabbyPayment
-import ai.tabby.android.ui.TabbySnippetWidget
-
-...
-
-@Composable
-fun TabbySnippetWidgetComposable(tabbyPayment: TabbyPayment) {
-    AndroidView(
-        factory = { context ->
-            TabbySnippetWidget(context)
-        },
-        update = { widget ->
-            val params = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            widget.layoutParams = params
-            widget.amount = tabbyPayment.amount
-            widget.currency = tabbyPayment.currency
-        }
-    )
-}
-```
-
-### Checkout Snippet
-
-```kotlin
-import ai.tabby.android.data.TabbyPayment
-import ai.tabby.android.ui.TabbyInstallmentsWidget
-
-...
-
-@Composable
-fun TabbyInstallmentsWidgetComposable(tabbyPayment: TabbyPayment) {
-    AndroidView(
-        factory = { context ->
-            TabbyInstallmentsWidget(context)
-        },
-        update = { widget ->
-            val params = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            widget.layoutParams = params
-            widget.amount = tabbyPayment.amount
-            widget.currency = tabbyPayment.currency
-        }
-    )
-}
-```
+**TODO**
 
 ## License
 
