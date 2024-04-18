@@ -237,7 +237,59 @@ class CheckoutActivity : ComponentActivity() {
 
 ## UI Components
 
-**TODO**
+### Product Page Snippet
+
+```kotlin
+import ai.tabby.android.data.TabbyPayment
+import ai.tabby.android.ui.TabbySnippetWidget
+
+...
+
+@Composable
+fun TabbySnippetWidgetComposable(tabbyPayment: TabbyPayment) {
+    AndroidView(
+        factory = { context ->
+            TabbySnippetWidget(context)
+        },
+        update = { widget ->
+            val params = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            widget.layoutParams = params
+            widget.amount = tabbyPayment.amount
+            widget.currency = tabbyPayment.currency
+        }
+    )
+}
+```
+
+### Checkout Snippet
+
+```kotlin
+import ai.tabby.android.data.TabbyPayment
+import ai.tabby.android.ui.TabbyInstallmentsWidget
+
+...
+
+@Composable
+fun TabbyInstallmentsWidgetComposable(tabbyPayment: TabbyPayment) {
+    AndroidView(
+        factory = { context ->
+            TabbyInstallmentsWidget(context)
+        },
+        update = { widget ->
+            val params = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            widget.layoutParams = params
+            widget.amount = tabbyPayment.amount
+            widget.currency = tabbyPayment.currency
+        }
+    )
+}
+```
 
 ## License
 
