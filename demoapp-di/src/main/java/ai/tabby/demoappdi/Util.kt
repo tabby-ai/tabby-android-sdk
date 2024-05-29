@@ -1,7 +1,14 @@
 package ai.tabby.demoappdi
 
-import ai.tabby.android.data.*
+import ai.tabby.android.data.Buyer
+import ai.tabby.android.data.BuyerHistory
+import ai.tabby.android.data.Currency
+import ai.tabby.android.data.Order
+import ai.tabby.android.data.OrderItem
+import ai.tabby.android.data.ShippingAddress
+import ai.tabby.android.data.TabbyPayment
 import java.math.BigDecimal
+import java.util.GregorianCalendar
 
 fun createSuccessfulPayment() = TabbyPayment(
     amount = BigDecimal(340),
@@ -33,11 +40,13 @@ fun createSuccessfulPayment() = TabbyPayment(
         zip = "11111"
     ),
     buyerHistory = BuyerHistory(
-        registeredSince = "2019-08-24T14:15:22Z",
+        registeredSince = GregorianCalendar.getInstance().apply {
+            set(2019, 8, 24)
+        }.time,
         loyaltyLevel = 0,
     ),
-    meta = mapOf(),
-    orderHistory = listOf()
+    meta = emptyMap(),
+    orderHistory = emptyList(),
 )
 
 fun createRejectedPayment() = TabbyPayment(
@@ -70,9 +79,11 @@ fun createRejectedPayment() = TabbyPayment(
         zip = "11111"
     ),
     buyerHistory = BuyerHistory(
-        registeredSince = "2019-08-24T14:15:22Z",
+        registeredSince = GregorianCalendar.getInstance().apply {
+            set(2019, 8, 24)
+        }.time,
         loyaltyLevel = 0,
     ),
-    meta = mapOf(),
-    orderHistory = listOf()
+    meta = emptyMap(),
+    orderHistory = emptyList(),
 )
