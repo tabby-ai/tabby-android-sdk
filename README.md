@@ -12,7 +12,7 @@ Add Tabby Android SDK dependency to your app's `build.gradle`:
 
 ```groovy
 dependencies {
-    implementation 'ai.tabby:tabby-android:1.1.7'
+    implementation 'ai.tabby:tabby-android:1.1.8'
 }
 ```
 
@@ -143,7 +143,7 @@ val tabbyPayment = TabbyPayment(
                 title = "Pink jersey",
                 description = "Jersey",
                 productUrl = "https://tabby.store/p/SKU123",
-                unitPrice = BigDecimal(300),
+                unitPrice = BigDecimal(300.00),
                 quantity = 1
             )
         ),
@@ -152,8 +152,54 @@ val tabbyPayment = TabbyPayment(
     ),
     shippingAddress = ShippingAddress(
         address = "Sample Address #2",
-        city = "Dubai"
-    )
+        city = "Dubai",
+        zip = "11111"
+    ),
+    buyerHistory = BuyerHistory(
+        // registeredSince is a Date and Date formatter is only one of the options how to get it for particular Date.
+        // We suggest to use LocalDateTime. It's not possible from our side because of the minSdk version.
+        // Date(LocalDateTime.now().minusDays(7).toEpochSecond(ZoneOffset.UTC))
+        registeredSince = SimpleDateFormat(
+            "yyyy-MM-dd'T'HH:mm:ss'Z'",
+            Locale.getDefault()
+        ).parse("2019-08-24T14:15:22Z")!!,
+        loyaltyLevel = 0,
+        wishlistCount = 1,
+        isSocialNetworksConnected = false,
+        isPhoneNumberVerified = false,
+        isEmailVerified = false,
+    ),
+    orderHistory = listOf(
+        OrderHistory(
+            // purchasedAt is a Date and Calendar is only one of the options how to get it for particular Date.
+            // We suggest to use LocalDateTime. It's not possible from our side because of the minSdk version.
+            // Date(LocalDateTime.now().minusDays(7).toEpochSecond(ZoneOffset.UTC))
+            purchasedAt = GregorianCalendar.getInstance().apply {
+                set(2019, 8, 24)
+            }.time,
+            amount = BigDecimal.ONE,
+            paymentMethod = PaymentMethod.CARD,
+            status = Status.NEW,
+            buyer = Buyer(
+                email = "test@gmail.com",
+                phone = "+995555466567",
+                name = "Denis",
+                dob = "2019-08-24",
+            ),
+            shippingAddress = ShippingAddress(
+                address = "Tbel-Abuseridze",
+                city = "Batumi",
+                zip = "6010",
+            ),
+            items = listOf(
+                OrderItem(
+                    refId = "1242532",
+                    title = "Test item"
+                )
+            ),
+        )
+    ),
+    meta = emptyMap(),
 )
 ```
 
