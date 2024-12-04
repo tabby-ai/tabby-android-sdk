@@ -1,0 +1,24 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    compileOnly "com.android.tools.lint:lint-api:$lint_version"
+
+    testImplementation "com.android.tools.lint:lint-tests:$lint_version"
+    testImplementation 'junit:junit:4.13.2'
+}
+
+jar {
+    manifest {
+        attributes('Lint-Registry-v2': 'ai.tabby.lint_rules')
+    }
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="installments_widget__no_fees">Use any card.</string>
+    <string name="installments_widget__q1_period">Today</string>
+    <string name="installments_widget__q2_period">In 1 month</string>
+    <string name="installments_widget__q3_period">In 2 months</string>
+    <string name="installments_widget__q4_period">In 3 months</string>
+    <string name="installments_widget__amount">%1$s %2$s</string>
+
+    <string name="snippet_widget__title">or 4 interest-free payments of %1$s %2$s &lt;font color="#3835AF">&lt;b>Learn\u00A0more&lt;/b>&lt;/font></string>
+    <string name="snippet_widget__learn_more">Learn\u00A0more</string>
+    <string name="snippet_widget__url">https://checkout.tabby.ai/promos/product-page/installments/en/</string>
+
+    <string name="widget__currency__aed">AED</string>
+    <string name="widget__currency__sar">SAR</string>
+    <string name="widget__currency__bhd">BHD</string>
+    <string name="widget__currency__kwd">KWD</string>
+    <string name="widget__currency__egp">EGP</string>
+</resources>

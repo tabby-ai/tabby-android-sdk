@@ -11,13 +11,13 @@ import ai.tabby.android.data.PaymentMethod
 import ai.tabby.android.data.ShippingAddress
 import ai.tabby.android.data.Status
 import ai.tabby.android.data.TabbyPayment
+import ai.tabby.android.internal.utils.TabbyLanguageResolver
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.Date
 import java.util.GregorianCalendar
-import java.util.Locale
 
 fun createSuccessfulPayment() = TabbyPayment(
     amount = BigDecimal(340),
@@ -51,7 +51,7 @@ fun createSuccessfulPayment() = TabbyPayment(
     buyerHistory = BuyerHistory(
         registeredSince = SimpleDateFormat(
             "yyyy-MM-dd'T'HH:mm:ss'Z'",
-            Locale.getDefault()
+            TabbyLanguageResolver.getNumberLocale()
         ).parse("2019-08-24T14:15:22Z")!!,
         loyaltyLevel = 0,
         wishlistCount = 1,

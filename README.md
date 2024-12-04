@@ -161,7 +161,7 @@ val tabbyPayment = TabbyPayment(
         // Date(LocalDateTime.now().minusDays(7).toEpochSecond(ZoneOffset.UTC))
         registeredSince = SimpleDateFormat(
             "yyyy-MM-dd'T'HH:mm:ss'Z'",
-            Locale.getDefault()
+            Locale.ENGLISH
         ).parse("2019-08-24T14:15:22Z")!!,
         loyaltyLevel = 0,
         wishlistCount = 1,
