@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="installments_widget__title_text_size">14sp</dimen>
+    <dimen name="installments_widget__quarter_sum_text_size">11sp</dimen>
+    <dimen name="installments_widget__quarter_period_text_size">11sp</dimen>
+    <dimen name="installments_widget__sum_currency_gap">3dp</dimen>
+    <dimen name="installments_widget__title_bottom_gap">16dp</dimen>
+    <dimen name="installments_widget__icon_amount_gap">6dp</dimen>
+    <dimen name="installments_widget__amount_period_gap">6dp</dimen>
+
+    <dimen name="snippet_widget__title_text_size">14sp</dimen>
+
+</resources>

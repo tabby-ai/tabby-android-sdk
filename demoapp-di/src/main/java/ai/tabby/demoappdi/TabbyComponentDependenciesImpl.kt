@@ -1,7 +1,7 @@
 package ai.tabby.demoappdi
 
-import ai.tabby.android.internal.network.TabbyEnvironment
 import ai.tabby.android.di.TabbyComponentDependencies
+import ai.tabby.android.internal.network.TabbyEnvironment
 import android.content.Context
 
 class TabbyComponentDependenciesImpl(
@@ -11,5 +11,5 @@ class TabbyComponentDependenciesImpl(
 ) : TabbyComponentDependencies {
     override fun getContext(): Context = context
     override fun getApiKey(): String = apiKey
-    override fun getEnvUrl(): String = environment.value
+    override fun getEnv(): TabbyEnvironment = environment
 }

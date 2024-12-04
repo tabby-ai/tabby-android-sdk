@@ -8,3 +8,5 @@ dependencyResolutionManagement {
 rootProject.name = "Tabby SDK"
 include ':demoapp'
 include ':demoapp-di'
+include ':tabby-sdk'
+//include ':lint-rules'

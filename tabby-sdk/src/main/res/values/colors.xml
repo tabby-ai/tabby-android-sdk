@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="widget__title">#54545C</color>
+    <color name="widget__quarter_tint">#54545C</color>
+    <color name="widget__quarter_sum">#292929</color>
+    <color name="widget__quarter_period">#54545C</color>
+    <color name="widget__connection_line">#54545C</color>
+</resources>

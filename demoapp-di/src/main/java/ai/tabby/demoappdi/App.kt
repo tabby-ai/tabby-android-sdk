@@ -13,7 +13,7 @@ class App : Application() {
         val tabbyDependencies = TabbyComponentDependenciesImpl(
             context = this, // application context
             apiKey = "_YOUR_API_KEY_",
-            environment = TabbyEnvironment.PROD
+            environment = TabbyEnvironment.Prod
         )
 
         // Create tabby component and link it to the injectable app's component

@@ -8,6 +8,6 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        TabbyFactory.setup(this, "_YOUR_API_KEY_", TabbyEnvironment.PROD)
+        TabbyFactory.setup(this, "_YOUR_API_KEY_", TabbyEnvironment.Prod)
     }
 }
