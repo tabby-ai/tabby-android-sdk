@@ -12,7 +12,7 @@
     <string name="snippet_widget__url">https://checkout.tabby.ai/promos/product-page/installments/en/</string>
 
     <string name="widget__currency__aed">AED</string>
-    <string name="widget__currency__sar">SAR</string>
+    <string name="widget__currency__sar">\u20CF</string>
     <string name="widget__currency__bhd">BHD</string>
     <string name="widget__currency__kwd">KWD</string>
     <string name="widget__currency__egp">EGP</string>

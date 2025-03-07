@@ -1,16 +1,21 @@
 package ai.tabby.android.internal.ui
 
 import ai.tabby.android.data.TabbyResult
+import ai.tabby.android.internal.permissions.PermissionRequester
+import ai.tabby.android.internal.permissions.WebViewPermissions
 import ai.tabby.android.internal.ui.screen.CheckoutWebScreen
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.webkit.PermissionRequest
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 internal class TabbyCheckoutActivity : ComponentActivity() {
 
@@ -23,8 +28,17 @@ internal class TabbyCheckoutActivity : ComponentActivity() {
         intent.getStringExtra(EXTRA_WEB_URL)!!
     }
 
+    private val permissionRequester: PermissionRequester = PermissionRequester()
+
+    private val permissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+        permissionRequester
+    )
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        permissionRequester.activityResultLauncher = permissionLauncher
         setContent {
 //            CheckoutTestScreen(::onResult)
 //            CheckoutWebScreen("http://exif-viewer.com/", webChromeClient, ::onResult)
@@ -56,6 +70,24 @@ internal class TabbyCheckoutActivity : ComponentActivity() {
             uploadMessageCallback = filePathCallback
             openImageChooser()
             return true
+        }
+
+        override fun onPermissionRequest(request: PermissionRequest) {
+            lifecycleScope.launch {
+                val result = permissionRequester.requestPermissions(
+                    request.resources.mapNotNull {
+                        WebViewPermissions.byPermission(it)
+                    }
+                )
+                val granted = result.filter { it.isGranted == true }
+
+                if (granted.isNotEmpty()) {
+                    request.grant(granted.map { it.permission.permission }
+                        .toTypedArray())
+                } else {
+                    request.deny()
+                }
+            }
         }
 
         private fun openImageChooser() {

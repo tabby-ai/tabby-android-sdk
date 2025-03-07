@@ -28,7 +28,7 @@ buildscript {
 
         nexus_publish_plugin    = '1.1.0'
 
-        tabby_sdk_version   = '1.1.11'
+        tabby_sdk_version   = '1.1.13'
     }
     repositories {
         google()

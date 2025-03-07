@@ -11,14 +11,14 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/widgetTitle"
+        style="@style/TabbyTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/installments_widget__no_fees"
-        android:textSize="@dimen/installments_widget__title_text_size"
         android:textColor="@color/widget__title"
+        android:textSize="@dimen/installments_widget__title_text_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!--  Block 1  -->
 
@@ -47,6 +47,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/q1amount"
+            style="@style/TabbyTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -59,6 +60,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/q1period"
+            style="@style/TabbyTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -98,6 +100,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/q2amount"
+            style="@style/TabbyTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -110,6 +113,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/q2period"
+            style="@style/TabbyTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -148,6 +152,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/q3amount"
+            style="@style/TabbyTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -160,6 +165,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/q3period"
+            style="@style/TabbyTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -198,6 +204,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/q4amount"
+            style="@style/TabbyTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -210,6 +217,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/q4period"
+            style="@style/TabbyTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

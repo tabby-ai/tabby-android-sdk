@@ -16,6 +16,8 @@ internal data class CheckoutSessionDto(
     val payment: SessionPaymentDto,
     @SerializedName("status")
     val statusDto: String,
+    @SerializedName("rejection_reason_code")
+    val rejectReason: String? = null,
     @SerializedName("product_type")
     val productType: String,
     @SerializedName("lang")
@@ -28,9 +30,52 @@ internal data class CheckoutSessionDto(
     fun toSession(): TabbySession =
         TabbySession(
             id = id,
+            status = status(),
             paymentId = payment.id,
             availableProducts = config.availableProducts.toProductList()
         )
+}
+
+internal fun CheckoutSessionDto.status(): TabbySession.Status {
+    val status = SessionStatus.statusOf(statusDto)
+    val rejectionReason = RejectionReason.reasonOf(rejectReason)
+    return when {
+        status == SessionStatus.Created -> TabbySession.Status.Created
+        else -> when (rejectionReason) {
+            RejectionReason.OrderAmountTooHigh -> TabbySession.Status.OrderAmountTooHigh
+            RejectionReason.OrderAmountTooLow -> TabbySession.Status.OrderAmountTooLow
+            RejectionReason.NotAvailable -> TabbySession.Status.NotAvailable
+            else -> TabbySession.Status.Rejected
+        }
+    }
+}
+
+internal enum class RejectionReason(val reason: String) {
+    OrderAmountTooHigh("order_amount_too_high"),
+    OrderAmountTooLow("order_amount_too_low"),
+    NotAvailable("not_available");
+
+    companion object {
+        fun reasonOf(reason: String?): RejectionReason? {
+            if (reason == null) return null
+            return entries.firstOrNull {
+                it.reason == reason
+            }
+        }
+    }
+}
+
+internal enum class SessionStatus(val status: String) {
+    Created("created"),
+    Rejected("rejected");
+
+    companion object {
+        fun statusOf(status: String): SessionStatus {
+            return SessionStatus.entries.firstOrNull {
+                it.status == status
+            } ?: Rejected
+        }
+    }
 }
 
 internal data class MerchantDto(

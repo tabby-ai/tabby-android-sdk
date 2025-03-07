@@ -11,9 +11,19 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class TabbySession(
     val id: String,
+    val status: Status,
     val paymentId: String,
     val availableProducts: List<Product>
-) : Parcelable
+) : Parcelable {
+
+    enum class Status {
+        Created,
+        NotAvailable,
+        OrderAmountTooHigh,
+        OrderAmountTooLow,
+        Rejected,
+    }
+}
 
 @Parcelize
 data class Product(

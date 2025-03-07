@@ -36,7 +36,14 @@ class CheckoutViewModel : ViewModel() {
                 )
             }
             result.getOrNull()?.let { tabbySession ->
-                onSessionSucceeded(tabbySession)
+                when (tabbySession.status) {
+                    TabbySession.Status.Created -> {
+                        onSessionSucceeded(tabbySession)
+                    }
+                    else -> {
+                        onSessionFailed(null)
+                    }
+                }
             } ?: onSessionFailed(result.exceptionOrNull())
         }
     }
