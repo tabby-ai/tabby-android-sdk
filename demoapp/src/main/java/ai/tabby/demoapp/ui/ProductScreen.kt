@@ -85,6 +85,7 @@ private fun CheckoutViewModel.putDemoData(): CheckoutViewModel {
 private val dummySession =
     TabbySession(
         id = "xxxx",
+        status = TabbySession.Status.Created,
         paymentId = "xxxx",
         availableProducts = listOf(
             Product(
