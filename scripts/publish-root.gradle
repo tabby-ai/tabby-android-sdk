@@ -5,8 +5,8 @@
 ext["signing.keyId"] = ''
 ext["signing.password"] = ''
 ext["signing.key"] = ''
-ext["ossrhUsername"] = ''
-ext["ossrhPassword"] = ''
+ext["sonatypeUsername"] = ''
+ext["sonatypePassword"] = ''
 ext["sonatypeStagingProfileId"] = ''
 
 // Read local property variables
@@ -18,8 +18,8 @@ if (secretPropsFile.exists()) {
     p.each { name, value -> ext[name] = value }
 } else {
     // Use system environment variables
-    ext["ossrhUsername"] = System.getenv('OSSRH_USERNAME')
-    ext["ossrhPassword"] = System.getenv('OSSRH_PASSWORD')
+    ext["sonatypeUsername"] = System.getenv('SONATYPE_USERNAME')
+    ext["sonatypePassword"] = System.getenv('SONATYPE_PASSWORD')
     ext["sonatypeStagingProfileId"] = System.getenv('SONATYPE_STAGING_PROFILE_ID')
     ext["signing.keyId"] = System.getenv('SIGNING_KEY_ID')
     ext["signing.password"] = System.getenv('SIGNING_PASSWORD')
@@ -30,12 +30,12 @@ if (secretPropsFile.exists()) {
 nexusPublishing {
     repositories {
         sonatype {
-            stagingProfileId = sonatypeStagingProfileId
-            username = ossrhUsername
-            password = ossrhPassword
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
 
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            stagingProfileId.set(sonatypeStagingProfileId)
+            username.set(sonatypeUsername)
+            password.set(sonatypePassword)
         }
     }
 }

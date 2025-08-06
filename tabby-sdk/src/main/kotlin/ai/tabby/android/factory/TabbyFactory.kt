@@ -15,6 +15,9 @@ object TabbyFactory {
 
     private val tabbyComponentRef = AtomicReference<TabbyComponent?>(null)
 
+    internal val tabbyComponent: TabbyComponent
+        get() = tabbyComponentRef.get() ?: throw IllegalStateException("Tabby component is not initialized!")
+
     /**
      * Tabby instance.
      *
