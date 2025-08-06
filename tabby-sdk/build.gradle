@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -66,6 +67,8 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3'
 
     //todo нужно запушить модуль lint-rules в нексус чтобы не падало на этой зависимости
     //implementation project(':lint-rules')

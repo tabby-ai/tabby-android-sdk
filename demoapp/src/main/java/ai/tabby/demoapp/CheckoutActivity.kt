@@ -13,7 +13,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 
 class CheckoutActivity : ComponentActivity() {
 
@@ -30,29 +37,37 @@ class CheckoutActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // Create tabby session
         viewModel.createSession(tabbyPayment)
 
         setContent {
             val state = viewModel.screenStateFlow.collectAsState()
-            when (state.value.state) {
-                ScreenState.State.INITIAL -> {}
-                ScreenState.State.CREATING_SESSION -> ProgressScreen(
-                    tabbyPayment = tabbyPayment
-                )
-                ScreenState.State.SESSION_CREATED -> ProductScreen(
-                    viewModel = viewModel,
-                    tabbyPayment = tabbyPayment,
-                    onProductSelected = ::onProductSelected
-                )
-                ScreenState.State.SESSION_FAILED -> FailedScreen {
-                    // Retry create session
-                    viewModel.createSession(tabbyPayment = tabbyPayment)
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(WindowInsets.safeDrawing.asPaddingValues())
+            ) {
+                when (state.value.state) {
+                    ScreenState.State.INITIAL -> {}
+                    ScreenState.State.CREATING_SESSION -> ProgressScreen(
+                        tabbyPayment = tabbyPayment
+                    )
+
+                    ScreenState.State.SESSION_CREATED -> ProductScreen(
+                        viewModel = viewModel,
+                        tabbyPayment = tabbyPayment,
+                        onProductSelected = ::onProductSelected
+                    )
+
+                    ScreenState.State.SESSION_FAILED -> FailedScreen {
+                        // Retry create session
+                        viewModel.createSession(tabbyPayment = tabbyPayment)
+                    }
+
+                    ScreenState.State.CHECKOUT_RESULT -> CheckoutResultScreen(
+                        viewModel = viewModel
+                    ) { finish() }
                 }
-                ScreenState.State.CHECKOUT_RESULT -> CheckoutResultScreen(
-                    viewModel = viewModel
-                ) { finish() }
             }
         }
     }
@@ -70,6 +85,7 @@ class CheckoutActivity : ComponentActivity() {
                         viewModel.onCheckoutResult(tabbyResult)
                     } ?: Toast.makeText(this, "Tabby result is null", Toast.LENGTH_SHORT).show()
                 }
+
                 else -> {
                     Toast.makeText(this, "Result is not OK", Toast.LENGTH_LONG).show()
                 }

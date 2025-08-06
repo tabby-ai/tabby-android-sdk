@@ -86,6 +86,7 @@ private val dummySession =
     TabbySession(
         id = "xxxx",
         paymentId = "xxxx",
+        status = TabbySession.Status.Created,
         availableProducts = listOf(
             Product(
                 ProductType.INSTALLMENTS,

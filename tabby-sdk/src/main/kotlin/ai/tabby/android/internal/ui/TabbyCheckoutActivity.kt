@@ -14,6 +14,11 @@ import android.webkit.WebView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
@@ -42,7 +47,12 @@ internal class TabbyCheckoutActivity : ComponentActivity() {
         setContent {
 //            CheckoutTestScreen(::onResult)
 //            CheckoutWebScreen("http://exif-viewer.com/", webChromeClient, ::onResult)
-            CheckoutWebScreen(webUrl, webChromeClient, ::onResult)
+            CheckoutWebScreen(
+                url = webUrl,
+                webChromeClient = webChromeClient,
+                modifier = Modifier.padding(WindowInsets.safeDrawing.asPaddingValues()),
+                onResult = ::onResult
+            )
         }
     }
 
@@ -113,6 +123,7 @@ internal class TabbyCheckoutActivity : ComponentActivity() {
                         clipData != null -> (0 until clipData.itemCount).map { count ->
                             clipData.getItemAt(count).uri
                         }
+
                         else -> listOf()
                     }
                 } else {

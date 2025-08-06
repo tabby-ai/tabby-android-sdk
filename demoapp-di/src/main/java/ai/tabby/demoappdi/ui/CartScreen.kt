@@ -8,8 +8,22 @@ import ai.tabby.demoappdi.createSuccessfulPayment
 import ai.tabby.demoappdi.ui.theme.TabbyAppTheme
 import android.content.res.Configuration
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,27 +40,33 @@ fun CartScreen(
     onCheckout: () -> Unit
 ) {
     TabbyAppTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(color = Color.White) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                TabbyInstallmentsWidgetComposable(tabbyPayment = tabbyPayment)
-                Spacer(modifier = Modifier.height(18.dp))
-                TabbySnippetWidgetComposable(tabbyPayment = tabbyPayment)
-                Spacer(modifier = Modifier.height(18.dp))
-                CartWidget(tabbyPayment = tabbyPayment)
-                Spacer(modifier = Modifier.height(18.dp))
-                CheckoutButton(onCheckout)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(WindowInsets.safeDrawing.asPaddingValues())
+        ) {
+            // A surface container using the 'background' color from the theme
+            Surface(color = Color.White) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    TabbyInstallmentsWidgetComposable(tabbyPayment = tabbyPayment)
+                    Spacer(modifier = Modifier.height(18.dp))
+                    TabbySnippetWidgetComposable(tabbyPayment = tabbyPayment)
+                    Spacer(modifier = Modifier.height(18.dp))
+                    CartWidget(tabbyPayment = tabbyPayment)
+                    Spacer(modifier = Modifier.height(18.dp))
+                    CheckoutButton(onCheckout)
+                }
             }
+            TopAppBar(
+                title = { Text(text = stringResource(R.string.app_name)) },
+                backgroundColor = MaterialTheme.colors.primary,
+                contentColor = MaterialTheme.colors.secondary
+            )
         }
-        TopAppBar(
-            title = { Text(text = stringResource(R.string.app_name)) },
-            backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.secondary
-        )
     }
 }
 

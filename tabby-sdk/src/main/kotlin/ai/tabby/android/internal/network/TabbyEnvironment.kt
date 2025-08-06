@@ -8,6 +8,13 @@ sealed interface TabbyEnvironment {
     data class Custom(val baseUrl: String, val analyticsUrl: String) : TabbyEnvironment
 }
 
+internal val TabbyEnvironment.widgetsUrl: String
+    get() = when (this) {
+        is TabbyEnvironment.Stage -> "https://widgets.tabby.dev/"
+        is TabbyEnvironment.Prod -> "https://widgets.tabby.ai/"
+        is TabbyEnvironment.Custom -> baseUrl
+    }
+
 internal val TabbyEnvironment.baseUrl: String
     get() = when (this) {
         is TabbyEnvironment.Stage -> "https://api.tabby.dev/"
