@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class CheckoutActivity : ComponentActivity() {
 
@@ -73,8 +75,10 @@ class CheckoutActivity : ComponentActivity() {
     }
 
     private fun onProductSelected(product: Product) {
-        val i = viewModel.createCheckoutIntent(product)
-        checkoutContract.launch(i)
+        lifecycleScope.launch {
+            val i = viewModel.createCheckoutIntent(product)
+            checkoutContract.launch(i)
+        }
     }
 
     private val checkoutContract =

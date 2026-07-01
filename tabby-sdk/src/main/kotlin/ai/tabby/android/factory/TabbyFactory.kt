@@ -3,77 +3,79 @@ package ai.tabby.android.factory
 import ai.tabby.android.core.Tabby
 import ai.tabby.android.di.TabbyComponent
 import ai.tabby.android.di.TabbyComponentDependencies
+import ai.tabby.android.factory.TabbyFactory.setup
+import ai.tabby.android.factory.TabbyFactory.tabby
+import ai.tabby.android.internal.di.TabbyInternalComponent
+import ai.tabby.android.internal.di.TabbyInternalComponentDependencies
+import ai.tabby.android.internal.di.TabbySdkInjector
 import ai.tabby.android.internal.network.TabbyEnvironment
 import android.content.Context
 import android.util.Log
-import java.util.concurrent.atomic.AtomicReference
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.first
 
 /**
  * Tabby factory provides methods for initialization and access to [Tabby] instance.
  */
 object TabbyFactory {
 
-    private val tabbyComponentRef = AtomicReference<TabbyComponent?>(null)
+    private val tabbyComponentState = MutableSharedFlow<TabbyComponent>(replay = 1)
 
-    internal val tabbyComponent: TabbyComponent
-        get() = tabbyComponentRef.get() ?: throw IllegalStateException("Tabby component is not initialized!")
-
-    /**
-     * Tabby instance.
-     *
-     * Factory method [setup] must be called to initialize this property. Otherwise
-     * [NullPointerException] will be thrown when accessing it before initialization.
-     *
-     * @see setup
-     */
-    val tabby: Tabby
-        get() = tabbyComponentRef.get()?.provideTabby()
-            ?: throw NullPointerException("Tabby factory is not initialized! Call setup() first.")
+    internal val tabbyComponentFlow: SharedFlow<TabbyComponent>
+        get() = tabbyComponentState.asSharedFlow()
 
     /**
-     * Crates and returns [Tabby] instance. Also method stores instance in the [tabby] property.
-     *
-     * This method must be called once when app is starting, usually in `Application.onCreate()`.
-     *
-     * You don't need to store [Tabby] instance, because it is always available via
-     * [TabbyFactory.tabby] property once `setup()` is called.
-     *
-     * @param context Application context
-     * @param apiKey Your Tabby API key
-     * @see tabby
+     * Returns the Tabby instance if it has been initialized, otherwise null.
      */
-    fun setup(
+    fun tabbyOrNull(): Tabby? = TabbySdkInjector.component?.tabbyComponent?.tabby
+
+    /**
+     * Tabby instance. [setup] must be called and awaited before accessing this property.
+     */
+    suspend fun tabby(): Tabby = awaitComponent().tabby
+
+    /**
+     * Initialises the SDK by fetching sharded endpoint configuration and creating the Tabby component.
+     *
+     * Must be called once before accessing [tabby]. Suspend — call from a coroutine scope.
+     * If called more than once the existing instance is returned without re-fetching.
+     */
+    suspend fun setup(
         context: Context,
         apiKey: String,
-        environment: TabbyEnvironment
-    ): Tabby {
-        val component = tabbyComponentRef.get()
-        if (component != null) {
-            Log.e("Tabby", "setup is called more than once")
-            return component.provideTabby()
-        }
-        synchronized(tabbyComponentRef) {
-            if (tabbyComponentRef.get() == null) {
-                val tabbyDependencies = TabbyComponentDependenciesImpl(
-                    context = context,
-                    apiKey = apiKey,
-                    environment = environment
-                )
-                val newComponent = TabbyComponent.create(dependencies = tabbyDependencies)
-                tabbyComponentRef.compareAndSet(null, newComponent)
-            }
+        environment: TabbyEnvironment,
+    ): Tabby = setupTabbyComponent(context, apiKey, environment).tabby
+
+    suspend fun setupTabbyComponent(
+        context: Context,
+        apiKey: String,
+        environment: TabbyEnvironment,
+    ): TabbyComponent {
+        val existing = TabbySdkInjector.component
+        if (existing != null) {
+            Log.w("Tabby", "setup is called more than once")
+            return existing.tabbyComponent!!
         }
 
-        return tabby
+        val internalDependencies = object : TabbyInternalComponentDependencies {
+            override val environment: TabbyEnvironment = environment
+            override val apiKey: String = apiKey
+        }
+        val internalComponent = TabbyInternalComponent(internalDependencies)
+        TabbySdkInjector.newInstance(internalComponent)
+
+        val dependencies = object : TabbyComponentDependencies {
+            override val context: Context = context
+            override val environment: TabbyEnvironment = environment
+            override val apiKey: String = apiKey
+        }
+        val component = internalComponent.tabbyComponent(dependencies)
+        tabbyComponentState.emit(component)
+
+        return component
     }
-}
 
-private class TabbyComponentDependenciesImpl(
-    private val context: Context,
-    private val apiKey: String,
-    private val environment: TabbyEnvironment
-) : TabbyComponentDependencies {
-    override fun getContext(): Context = context
-    override fun getApiKey(): String = apiKey
-    override fun getEnv(): TabbyEnvironment = environment
+    private suspend fun awaitComponent(): TabbyComponent = tabbyComponentState.first()
 }

@@ -1,8 +1,11 @@
 package ai.tabby.demoappdi.ui
 
+import ai.tabby.android.data.Lang
 import ai.tabby.android.data.TabbyPayment
 import ai.tabby.android.ui.TabbyInstallmentsWidget
 import ai.tabby.android.ui.TabbySnippetWidget
+import ai.tabby.android.ui.dynamic.TabbyCardSnippetView
+import ai.tabby.android.ui.dynamic.TabbySnippetView
 import ai.tabby.demoappdi.R
 import ai.tabby.demoappdi.createSuccessfulPayment
 import ai.tabby.demoappdi.ui.theme.TabbyAppTheme
@@ -55,6 +58,10 @@ fun CartScreen(
                     TabbyInstallmentsWidgetComposable(tabbyPayment = tabbyPayment)
                     Spacer(modifier = Modifier.height(18.dp))
                     TabbySnippetWidgetComposable(tabbyPayment = tabbyPayment)
+                    Spacer(modifier = Modifier.height(18.dp))
+                    TabbySnippetComposable(tabbyPayment = tabbyPayment)
+                    Spacer(modifier = Modifier.height(18.dp))
+                    TabbyCardSnippetComposable(tabbyPayment = tabbyPayment)
                     Spacer(modifier = Modifier.height(18.dp))
                     CartWidget(tabbyPayment = tabbyPayment)
                     Spacer(modifier = Modifier.height(18.dp))
@@ -116,6 +123,46 @@ fun TabbySnippetWidgetComposable(tabbyPayment: TabbyPayment) {
             widget.layoutParams = params
             widget.amount = tabbyPayment.amount
             widget.currency = tabbyPayment.currency
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    )
+}
+
+@Composable
+fun TabbySnippetComposable(tabbyPayment: TabbyPayment) {
+    AndroidView(
+        factory = { context ->
+            TabbySnippetView(context)
+        },
+        update = { widget ->
+            widget.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            widget.tabbyPayment = tabbyPayment
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    )
+}
+
+@Composable
+fun TabbyCardSnippetComposable(tabbyPayment: TabbyPayment) {
+    AndroidView(
+        factory = { context ->
+            TabbyCardSnippetView(context)
+        },
+        update = { widget ->
+            widget.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            widget.tabbyPayment = tabbyPayment
+            widget.merchantCode = "ae"
+            widget.lang = Lang.EN
         },
         modifier = Modifier
             .fillMaxWidth()
