@@ -1,7 +1,7 @@
 package ai.tabby.android.internal.ui
 
 import ai.tabby.android.R
-import ai.tabby.android.internal.analytics.api.segmentAnalytics
+import ai.tabby.android.internal.analytics.api.eventCollectorAnalytics
 import ai.tabby.android.internal.ui.analutics.LearnMorePopupClosed
 import ai.tabby.android.internal.ui.analutics.LearnMorePopupOpened
 import android.content.Context
@@ -16,6 +16,7 @@ import androidx.activity.ComponentActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 internal class SimpleWebActivity : ComponentActivity() {
 
@@ -49,6 +50,10 @@ internal class SimpleWebActivity : ComponentActivity() {
             WindowInsetsCompat.CONSUMED
         }
 
+        findViewById<FloatingActionButton>(R.id.closeButton).setOnClickListener {
+            finish()
+        }
+
         findViewById<WebView>(R.id.webView).apply {
             settings.javaScriptEnabled = true
             settings.allowFileAccess = true
@@ -69,12 +74,12 @@ internal class SimpleWebActivity : ComponentActivity() {
             loadUrl(initialUrl)
         }
 
-        segmentAnalytics.sendEvent(LearnMorePopupOpened(installmentsCount, currencyName))
+        eventCollectorAnalytics.sendEvent(LearnMorePopupOpened(installmentsCount, currencyName))
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        segmentAnalytics.sendEvent(LearnMorePopupClosed(installmentsCount, currencyName))
+        eventCollectorAnalytics.sendEvent(LearnMorePopupClosed(installmentsCount, currencyName))
     }
 
     companion object {

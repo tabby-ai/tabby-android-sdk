@@ -21,7 +21,7 @@ class CheckoutViewModel : ViewModel() {
         )
         viewModelScope.launch {
             val result = runCatching {
-                TabbyFactory.tabby.createSession(
+                TabbyFactory.tabby().createSession(
                     merchantCode = "ae",
                     lang = Lang.EN,
                     payment = tabbyPayment
@@ -54,8 +54,9 @@ class CheckoutViewModel : ViewModel() {
         )
     }
 
-    fun createCheckoutIntent(product: Product): Intent =
-        TabbyFactory.tabby.createCheckoutIntent(product = product)
+    suspend fun createCheckoutIntent(product: Product): Intent {
+        return TabbyFactory.tabby().createCheckoutIntent(product = product)
+    }
 
     fun onCheckoutResult(result: TabbyResult) {
         mutableStateFlow.value = mutableStateFlow.value.copy(

@@ -32,51 +32,50 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import kotlinx.serialization.json.Json
 
-private const val SNIPPET_WIDGET_API: String = "tabby-promo.html"
+private const val CARD_SNIPPET_API: String = "tabby-card.html"
 
 @Composable
-fun TabbySnippet(
+fun TabbyCardSnippet(
     tabbyPayment: TabbyPayment,
+    merchantCode: String,
     modifier: Modifier = Modifier,
     dialogModifier: Modifier = Modifier,
-    minHeight: Dp = 50.dp,
+    minHeight: Dp = 136.dp,
     lang: Lang = Lang.EN,
+    installmentsCount: Int = 4,
 ) {
     var showDialog: Boolean by remember { mutableStateOf(false) }
     var openUrl: OpenUrlDto? by remember { mutableStateOf(null) }
     var dimensions: DimensionsDto? by remember { mutableStateOf(null) }
 
     val minWidth by remember {
-        derivedStateOf {
-            dimensions?.width?.dp ?: 0.dp
-        }
+        derivedStateOf { dimensions?.width?.dp ?: 0.dp }
     }
     val height by remember {
-        derivedStateOf {
-            dimensions?.height?.takeIf { it > 0 }?.dp ?: minHeight
-        }
+        derivedStateOf { dimensions?.height?.takeIf { it > 0 }?.dp ?: minHeight }
     }
-    val component by TabbyFactory.tabbyComponentFlow.collectAsState(null)
 
+    val component by TabbyFactory.tabbyComponentFlow.collectAsState(null)
     val tabbyComponent = component ?: return
-    val snippetWidgetUrl by remember(tabbyPayment, tabbyComponent) {
+    val cardSnippetUrl by remember(tabbyPayment, tabbyComponent) {
         derivedStateOf {
             val widgetsBase = tabbyComponent.sdkConfig
                 .endpointsFor(tabbyPayment.currency)
                 .widgetsBaseUrl
-
-            widgetsBase.trimEnd('/') + "/$SNIPPET_WIDGET_API"
+            widgetsBase.trimEnd('/') + "/$CARD_SNIPPET_API"
         }
     }
 
     ComposeWebViewWidget(
         webViewClient = object : WebViewClient() {},
         webChromeClient = object : WebChromeClient() {},
-        url = snippetWidgetUrl.withParams(
+        url = cardSnippetUrl.withCardParams(
             price = tabbyPayment.amount.intValueExact(),
             currency = tabbyPayment.currency,
             lang = lang,
-            apiKey = tabbyComponent.apiKey
+            merchantCode = merchantCode,
+            installmentsCount = installmentsCount,
+            apiKey = tabbyComponent.apiKey,
         ),
         modifier = modifier
             .height(height)
@@ -90,7 +89,7 @@ fun TabbySnippet(
         })
     )
 
-    SnippetDialog(
+    CardSnippetDialog(
         modifier = dialogModifier,
         openUrlDto = openUrl,
         showDialog = showDialog,
@@ -99,7 +98,7 @@ fun TabbySnippet(
 }
 
 @Composable
-private fun SnippetDialog(
+private fun CardSnippetDialog(
     modifier: Modifier,
     openUrlDto: OpenUrlDto?,
     showDialog: Boolean,
@@ -113,11 +112,7 @@ private fun SnippetDialog(
         url = openUrlDto.url,
         webViewClient = object : WebViewClient() {
             @SuppressLint("NewApi")
-            override fun onPageStarted(
-                view: WebView,
-                url: String?,
-                favicon: Bitmap?
-            ) {
+            override fun onPageStarted(view: WebView, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
                 view.postWebMessage(
                     WebMessage(
@@ -131,20 +126,21 @@ private fun SnippetDialog(
             }
         },
         webChromeClient = object : WebChromeClient() {},
-        onDismissRequest = onDismissRequest
+        onDismissRequest = onDismissRequest,
     )
 }
 
-private fun String.withParams(
+private fun String.withCardParams(
     price: Int,
     currency: Currency,
     lang: Lang,
+    merchantCode: String,
+    installmentsCount: Int,
     apiKey: String,
-): String {
-    return this +
-            "?price=$price" +
-            "&currency=${currency.name}" +
-            "&lang=${lang.name.lowercase()}" +
-            "&publicKey=$apiKey"
-}
-
+): String = this +
+        "?price=$price" +
+        "&currency=${currency.name}" +
+        "&lang=${lang.name.lowercase()}" +
+        "&publicKey=$apiKey" +
+        "&merchantCode=$merchantCode" +
+        "&installmentsCount=$installmentsCount"

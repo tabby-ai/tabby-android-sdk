@@ -1,8 +1,7 @@
 package ai.tabby.android.internal.analytics.impl
 
-import ai.tabby.android.di.TabbyComponentDependencies
 import ai.tabby.android.internal.analytics.api.Event
-import ai.tabby.android.internal.analytics.api.SegmentAnalytics
+import ai.tabby.android.internal.analytics.api.EventCollectorAnalytics
 import ai.tabby.android.internal.analytics.impl.network.AnalyticsService
 import ai.tabby.android.internal.analytics.impl.plugin.BasicInfoPlugin
 import ai.tabby.android.internal.analytics.impl.plugin.EventContextPlugin
@@ -20,17 +19,14 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import javax.inject.Named
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.cancellation.CancellationException
 
-internal class SegmentAnalyticsImpl @Inject constructor(
+internal class EventCollectorAnalyticsImpl(
     private val service: AnalyticsService,
     private val logger: TabbyLogger,
-    @Named(TabbyComponentDependencies.API_KEY_KEY)
-    private val apiKey: String,
-) : SegmentAnalytics, CoroutineScope {
+    apiKey: String,
+) : EventCollectorAnalytics, CoroutineScope {
 
     companion object {
         private const val TAG: String = "TabbyAnalytics"
@@ -51,14 +47,14 @@ internal class SegmentAnalyticsImpl @Inject constructor(
 
     private val actor = MutableSharedFlow<Event>(replay = 1).apply {
         onEach {
-            this@SegmentAnalyticsImpl.launch {
+            this@EventCollectorAnalyticsImpl.launch {
                 try {
                     handleEvent(it)
                 } catch (ex: Throwable) {
                     onError(ex)
                 }
             }
-        }.launchIn(this@SegmentAnalyticsImpl)
+        }.launchIn(this@EventCollectorAnalyticsImpl)
     }
 
     override fun sendEvent(event: Event) {

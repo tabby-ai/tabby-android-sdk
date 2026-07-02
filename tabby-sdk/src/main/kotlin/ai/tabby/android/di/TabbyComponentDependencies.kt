@@ -2,18 +2,12 @@ package ai.tabby.android.di
 
 import ai.tabby.android.internal.network.TabbyEnvironment
 import android.content.Context
-import javax.inject.Named
 
-interface TabbyComponentDependencies {
+internal interface TabbyComponentDependencies {
 
-    companion object {
-        const val API_KEY_KEY = "apiKey"
-    }
+    val context: Context
 
-    fun getContext(): Context
+    val environment: TabbyEnvironment
 
-    fun getEnv(): TabbyEnvironment
-
-    @Named(API_KEY_KEY)
-    fun getApiKey(): String
+    val apiKey: String
 }

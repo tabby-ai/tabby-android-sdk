@@ -2,7 +2,7 @@ package ai.tabby.android.ui
 
 import ai.tabby.android.R
 import ai.tabby.android.data.Currency
-import ai.tabby.android.internal.analytics.api.segmentAnalytics
+import ai.tabby.android.internal.analytics.api.eventCollectorAnalytics
 import ai.tabby.android.internal.ui.SimpleWebActivity
 import ai.tabby.android.internal.utils.TabbyLanguageResolver
 import ai.tabby.android.ui.analytics.LearnMoreClicked
@@ -53,11 +53,11 @@ class TabbySnippetWidget @JvmOverloads constructor(
                 context.startActivity(it)
             }
 
-            segmentAnalytics.sendEvent(LearnMoreClicked(installmentsCount, currency.name))
+            eventCollectorAnalytics.sendEvent(LearnMoreClicked(installmentsCount, currency.name))
         }
 
         doOnLayout {
-            segmentAnalytics.sendEvent(SnippetCardRendered(installmentsCount, currency.name))
+            eventCollectorAnalytics.sendEvent(SnippetCardRendered(installmentsCount, currency.name))
         }
     }
 

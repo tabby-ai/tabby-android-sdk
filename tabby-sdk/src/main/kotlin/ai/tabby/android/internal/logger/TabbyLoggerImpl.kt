@@ -1,9 +1,8 @@
 package ai.tabby.android.internal.logger
 
 import android.util.Log
-import javax.inject.Inject
 
-internal class TabbyLoggerImpl @Inject constructor() : TabbyLogger {
+internal class TabbyLoggerImpl : TabbyLogger {
 
     companion object {
         private const val TAG_PREFIX = "Tby"
