@@ -1,7 +1,7 @@
 package ai.tabby.demoapp
 
 import ai.tabby.android.factory.TabbyFactory
-import ai.tabby.android.internal.network.TabbyEnvironment
+import ai.tabby.demoapp.qa.DemoConfig
 import android.app.Application
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,8 +11,9 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        DemoConfig.init(this)
         CoroutineScope(Dispatchers.IO).launch {
-            TabbyFactory.setup(this@App, "_YOUR_API_KEY_", TabbyEnvironment.Prod)
+            TabbyFactory.setup(this@App, DemoConfig.apiKey, DemoConfig.environment)
         }
     }
 }

@@ -1,5 +1,6 @@
 package ai.tabby.demoapp
 
+import ai.tabby.android.data.Lang
 import ai.tabby.android.data.Product
 import ai.tabby.android.data.TabbyPayment
 import ai.tabby.android.data.tabbyResult
@@ -8,7 +9,6 @@ import ai.tabby.demoapp.ui.FailedScreen
 import ai.tabby.demoapp.ui.ProductScreen
 import ai.tabby.demoapp.ui.ProgressScreen
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,10 +24,18 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
+/**
+ * Reference implementation of a checkout screen. This is the shape a merchant's own checkout
+ * activity would take: create a [ai.tabby.android.data.TabbySession] for the payment, let the
+ * customer pick a product, launch [ai.tabby.android.core.Tabby.createCheckoutIntent] for result,
+ * and handle the returned [ai.tabby.android.data.TabbyResult]. See README "Getting Started".
+ */
 class CheckoutActivity : ComponentActivity() {
 
     companion object {
         const val ARG_TABBY_PAYMENT = "arg.tabbyPayment"
+        const val ARG_MERCHANT_CODE = "arg.merchantCode"
+        const val ARG_LANG = "arg.lang"
     }
 
     private val viewModel: CheckoutViewModel by viewModels()
@@ -37,10 +45,18 @@ class CheckoutActivity : ComponentActivity() {
             ?: throw IllegalArgumentException("Argument $ARG_TABBY_PAYMENT is missing")
     }
 
+    private val merchantCode: String by lazy {
+        intent.getStringExtra(ARG_MERCHANT_CODE) ?: "ae"
+    }
+
+    private val lang: Lang by lazy {
+        intent.getStringExtra(ARG_LANG)?.let { runCatching { Lang.valueOf(it) }.getOrNull() } ?: Lang.EN
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Create tabby session
-        viewModel.createSession(tabbyPayment)
+        viewModel.createSession(tabbyPayment, merchantCode, lang)
 
         setContent {
             val state = viewModel.screenStateFlow.collectAsState()
@@ -61,9 +77,11 @@ class CheckoutActivity : ComponentActivity() {
                         onProductSelected = ::onProductSelected
                     )
 
-                    ScreenState.State.SESSION_FAILED -> FailedScreen {
+                    ScreenState.State.SESSION_FAILED -> FailedScreen(
+                        message = state.value.errorMessage,
+                    ) {
                         // Retry create session
-                        viewModel.createSession(tabbyPayment = tabbyPayment)
+                        viewModel.createSession(tabbyPayment, merchantCode, lang)
                     }
 
                     ScreenState.State.CHECKOUT_RESULT -> CheckoutResultScreen(
@@ -87,11 +105,11 @@ class CheckoutActivity : ComponentActivity() {
                 RESULT_OK -> {
                     result.tabbyResult?.let { tabbyResult ->
                         viewModel.onCheckoutResult(tabbyResult)
-                    } ?: Toast.makeText(this, "Tabby result is null", Toast.LENGTH_SHORT).show()
+                    } ?: viewModel.onCheckoutError("Tabby result is null")
                 }
 
                 else -> {
-                    Toast.makeText(this, "Result is not OK", Toast.LENGTH_LONG).show()
+                    viewModel.onCheckoutError("Activity result was not OK (resultCode=${result.resultCode})")
                 }
             }
         }

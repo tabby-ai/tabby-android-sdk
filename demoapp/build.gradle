@@ -57,6 +57,7 @@ dependencies {
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.activity:activity-compose:$activity_compose_verion"
+    implementation "androidx.navigation:navigation-compose:$navigation_compose_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 

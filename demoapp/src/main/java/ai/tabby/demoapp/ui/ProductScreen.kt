@@ -5,7 +5,7 @@ import ai.tabby.android.data.ProductType
 import ai.tabby.android.data.TabbyPayment
 import ai.tabby.android.data.TabbySession
 import ai.tabby.demoapp.CheckoutViewModel
-import ai.tabby.demoapp.createSuccessfulPayment
+import ai.tabby.demoapp.qa.PaymentPresets
 import ai.tabby.demoapp.ui.theme.TabbyAppTheme
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
@@ -35,7 +35,7 @@ fun ProductScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CartWidget(tabbyPayment = tabbyPayment)
+                OrderSummaryView(tabbyPayment = tabbyPayment)
                 Spacer(modifier = Modifier.height(18.dp))
                 state.value.session?.availableProducts?.forEach {
                     ProductButton(product = it) {
@@ -73,7 +73,7 @@ fun ProductButton(product: Product, onClick: () -> Unit) {
 fun ProductPreview() {
     ProductScreen(
         viewModel = CheckoutViewModel().putDemoData(),
-        tabbyPayment = createSuccessfulPayment())
+        tabbyPayment = PaymentPresets.successful())
     {}
 }
 

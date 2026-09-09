@@ -6,13 +6,30 @@ Tabby SDK for Android makes it easier to integrate you app with Tabby payment pl
 
 Android 5.0 (API level 21) and above.
 
+## Demo App
+
+The [`demoapp`](demoapp) module serves two purposes:
+
+- **QA sandbox** — launch it, open **Settings** to pick Stage/Prod (or a custom environment) and
+  set an API key, then use the **payment builder** home screen to pick a test-data preset or edit
+  the amount/currency/merchant code/customer & order fields and start a checkout — no rebuild
+  needed (changing environment/API key restarts the app to apply, since the SDK can only be set up
+  once per process). Every run shows its outcome (success/rejected/cancelled/error) with the raw
+  SDK payload on screen, copyable for bug reports. The **Widgets** screen exercises every
+  standalone widget (`TabbyInstallmentsWidget`, `TabbySnippetWidget`, `TabbySnippetView`,
+  `TabbyCardSnippetView`) against the same payment.
+- **Integration reference** — `App.kt`, `CheckoutActivity.kt` and `CheckoutViewModel.kt` (in the
+  `ai.tabby.demoapp` root package) show the minimal, real-world shape of an integration and mirror
+  the snippets below. Everything under `ai.tabby.demoapp.qa` is testing scaffolding for the sandbox
+  above — merchants integrating the SDK should look at the root package, not `qa`.
+
 ## Integration
 
 Add Tabby Android SDK dependency to your app's `build.gradle`:
 
 ```groovy
 dependencies {
-    implementation("ai.tabby:tabby-android:1.1.15")
+    implementation("ai.tabby:tabby-android:2.0.1")
 }
 ```
 
@@ -137,11 +154,11 @@ Tabby session is typically created from a `ViewModel` using `viewModelScope`:
 ```kotlin
 class CheckoutViewModel : ViewModel() {
 
-    fun createSession(tabbyPayment: TabbyPayment) {
+    fun createSession(tabbyPayment: TabbyPayment, merchantCode: String, lang: Lang) {
         viewModelScope.launch {
             val session = TabbyFactory.tabby().createSession(
-                merchantCode = "ae",
-                lang = Lang.EN,
+                merchantCode = merchantCode,
+                lang = lang,
                 payment = tabbyPayment
             )
             for (product in session.availableProducts) {
