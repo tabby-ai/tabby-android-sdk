@@ -10,6 +10,7 @@ import ai.tabby.android.ui.dynamic.model.InitializationDataDto
 import ai.tabby.android.ui.dynamic.model.OpenUrlDto
 import ai.tabby.android.ui.dynamic.webview.ComposeWebViewWidget
 import ai.tabby.android.ui.dynamic.webview.DialogWithWebView
+import ai.tabby.android.internal.utils.toWidgetPriceParam
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.webkit.WebChromeClient
@@ -70,7 +71,7 @@ fun TabbyCardSnippet(
         webViewClient = object : WebViewClient() {},
         webChromeClient = object : WebChromeClient() {},
         url = cardSnippetUrl.withCardParams(
-            price = tabbyPayment.amount.intValueExact(),
+            price = tabbyPayment.amount.toWidgetPriceParam(tabbyPayment.currency),
             currency = tabbyPayment.currency,
             lang = lang,
             merchantCode = merchantCode,
@@ -131,7 +132,7 @@ private fun CardSnippetDialog(
 }
 
 private fun String.withCardParams(
-    price: Int,
+    price: String,
     currency: Currency,
     lang: Lang,
     merchantCode: String,

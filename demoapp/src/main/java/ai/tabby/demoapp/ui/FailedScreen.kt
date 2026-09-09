@@ -16,13 +16,14 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun FailedScreen(
+    message: String? = null,
     onRetry: () -> Unit
 ) {
     TabbyAppTheme {
         // A surface container using the 'background' color from the theme
         Surface(color = MaterialTheme.colors.background) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -31,6 +32,14 @@ fun FailedScreen(
                     style = MaterialTheme.typography.button,
                     fontSize = 18.sp
                 )
+                if (message != null) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = message,
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colors.error,
+                    )
+                }
                 Spacer(modifier = Modifier.height(18.dp))
                 Button(onClick = onRetry) {
                     Text(
@@ -54,5 +63,5 @@ fun FailedScreen(
 )
 @Composable
 private fun FailedPreview() {
-    FailedScreen() {}
+    FailedScreen(message = "HTTP 500: Internal Server Error") {}
 }

@@ -1,7 +1,7 @@
 package ai.tabby.demoapp.ui
 
 import ai.tabby.android.data.TabbyPayment
-import ai.tabby.demoapp.createSuccessfulPayment
+import ai.tabby.demoapp.qa.PaymentPresets
 import ai.tabby.demoapp.ui.theme.TabbyAppTheme
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
@@ -26,7 +26,7 @@ fun ProgressScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CartWidget(tabbyPayment = tabbyPayment)
+                OrderSummaryView(tabbyPayment = tabbyPayment)
                 Spacer(modifier = Modifier.height(18.dp))
                 SessionProgressIndicator()
             }
@@ -50,5 +50,5 @@ fun SessionProgressIndicator() {
 )
 @Composable
 private fun ProgressPreview() {
-    ProgressScreen(createSuccessfulPayment())
+    ProgressScreen(PaymentPresets.successful())
 }

@@ -15,15 +15,15 @@ class CheckoutViewModel : ViewModel() {
     private val mutableStateFlow = MutableStateFlow(ScreenState.default())
     val screenStateFlow: StateFlow<ScreenState> by ::mutableStateFlow
 
-    fun createSession(tabbyPayment: TabbyPayment) {
+    fun createSession(tabbyPayment: TabbyPayment, merchantCode: String, lang: Lang) {
         mutableStateFlow.value = ScreenState(
             state = ScreenState.State.CREATING_SESSION
         )
         viewModelScope.launch {
             val result = runCatching {
                 TabbyFactory.tabby().createSession(
-                    merchantCode = "ae",
-                    lang = Lang.EN,
+                    merchantCode = merchantCode,
+                    lang = lang,
                     payment = tabbyPayment
                 )
             }
@@ -33,7 +33,7 @@ class CheckoutViewModel : ViewModel() {
                         onSessionSucceeded(tabbySession)
                     }
                     else -> {
-                        onSessionFailed(null)
+                        onSessionFailed(IllegalStateException("Session status: ${tabbySession.status}"))
                     }
                 }
             } ?: onSessionFailed(result.exceptionOrNull())
@@ -51,6 +51,7 @@ class CheckoutViewModel : ViewModel() {
         Log.e("VM", "Error creating session", t)
         mutableStateFlow.value = ScreenState(
             state = ScreenState.State.SESSION_FAILED,
+            errorMessage = t?.message ?: "Unknown error",
         )
     }
 
@@ -61,7 +62,17 @@ class CheckoutViewModel : ViewModel() {
     fun onCheckoutResult(result: TabbyResult) {
         mutableStateFlow.value = mutableStateFlow.value.copy(
             state = ScreenState.State.CHECKOUT_RESULT,
-            checkoutResult = result
+            checkoutResult = result,
+            errorMessage = null,
+        )
+    }
+
+    /** Covers the non-OK activity result / null [TabbyResult] cases, so QA always sees an outcome. */
+    fun onCheckoutError(message: String) {
+        mutableStateFlow.value = mutableStateFlow.value.copy(
+            state = ScreenState.State.CHECKOUT_RESULT,
+            checkoutResult = null,
+            errorMessage = message,
         )
     }
 
@@ -73,14 +84,15 @@ class CheckoutViewModel : ViewModel() {
 data class ScreenState(
     val state: State,
     val session: TabbySession? = null,
-    val checkoutResult: TabbyResult? = null
+    val checkoutResult: TabbyResult? = null,
+    val errorMessage: String? = null,
 ) {
     enum class State {
         INITIAL,
         CREATING_SESSION,   // Create session is in progress
         SESSION_CREATED,    // Product selection buttons are displayed
         SESSION_FAILED,     // Retry button is displayed
-        CHECKOUT_RESULT,    // Checkout result is displayed along with Done button
+        CHECKOUT_RESULT,    // Checkout result (or error) is displayed along with Done button
     }
 
     companion object {

@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TabbyApp">
         <activity
-            android:name="ai.tabby.demoapp.CartActivity"
+            android:name="ai.tabby.demoapp.qa.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.TabbyApp.NoActionBar"
