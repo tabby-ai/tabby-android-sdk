@@ -55,8 +55,8 @@ afterEvaluate {
                     url = 'https://github.com/tabby-ai/tabby-android-sdk'
                     licenses {
                         license {
-                            name = 'The Apache Software License, Version 2.0'
-                            url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                            name = 'MIT License'
+                            url = 'https://opensource.org/licenses/MIT'
                         }
                     }
                     developers {

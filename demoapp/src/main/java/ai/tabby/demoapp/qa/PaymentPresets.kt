@@ -14,8 +14,7 @@ import ai.tabby.android.data.TabbyPayment
 import ai.tabby.android.internal.utils.TabbyLanguageResolver
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import java.util.Calendar
 import java.util.Date
 import java.util.GregorianCalendar
 
@@ -142,7 +141,9 @@ object PaymentPresets {
             contentType = ""
         ),
         buyerHistory = BuyerHistory(
-            registeredSince = Date(LocalDateTime.now().minusDays(7).toEpochSecond(ZoneOffset.UTC)),
+            registeredSince = GregorianCalendar.getInstance().apply {
+                add(Calendar.DAY_OF_YEAR, -7)
+            }.time,
             loyaltyLevel = 0,
         ),
         orderHistory = emptyList(),
