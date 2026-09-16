@@ -12,6 +12,7 @@ import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.WindowInsets
@@ -44,6 +45,11 @@ internal class TabbyCheckoutActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         permissionRequester.activityResultLauncher = permissionLauncher
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onResult(TabbyResult(TabbyResult.Result.CLOSED))
+            }
+        })
         setContent {
 //            CheckoutTestScreen(::onResult)
 //            CheckoutWebScreen("http://exif-viewer.com/", webChromeClient, ::onResult)
@@ -62,10 +68,6 @@ internal class TabbyCheckoutActivity : ComponentActivity() {
         }
         setResult(RESULT_OK, i)
         finish()
-    }
-
-    override fun onBackPressed() {
-        onResult(TabbyResult(TabbyResult.Result.CLOSED))
     }
 
     private var uploadMessageCallback: ValueCallback<Array<Uri>>? = null

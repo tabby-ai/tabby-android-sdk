@@ -69,6 +69,7 @@ fun ProductButton(product: Product, onClick: () -> Unit) {
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     showBackground = true
 )
+@Suppress("ViewModelConstructorInComposable")
 @Composable
 fun ProductPreview() {
     ProductScreen(
