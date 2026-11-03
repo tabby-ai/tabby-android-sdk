@@ -9,7 +9,7 @@
 
 <!--    <string name="info_widget__title_orig">سّمها على 4 دفعات شهرية بقيمة %@ %@. بدون رسوم أو فوائد. </string>-->
     <string name="snippet_widget__learn_more">لمعرفة المزيد</string>
-    <string name="snippet_widget__title">أو قسّمها على 4 دفعات شهرية بقيمة %2$s%1$s. بدون رسوم أو فوائد. &lt;font color="#3835AF">&lt;b>المزيد\u00A0لمعرفة&lt;/b>&lt;/font></string>
+    <string name="snippet_widget__title">أو قسّمها على 4 دفعات شهرية بقيمة %2$s%1$s. بدون رسوم أو فوائد. &lt;font color="#3835AF">&lt;b>لمعرفة\u00A0المزيد&lt;/b>&lt;/font></string>
     <string name="snippet_widget__url">https://checkout.tabby.ai/promos/product-page/installments/ar/</string>
 
     <string name="widget__currency__aed">AED</string>
